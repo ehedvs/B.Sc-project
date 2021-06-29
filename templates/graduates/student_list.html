@@ -1,0 +1,84 @@
+{% extends 'registrar_admin/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block subtitle %}List of students registered{% endblock %}
+{% block first %}Home {% endblock %}
+{% block second %}Student entry{% endblock %}
+{% block content%}
+
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Recently uploaded students data</h3>
+        </div>
+        <!-- ./card-header -->
+        <div class="card-body p-0">
+          <table class="table table-hover">
+            <tbody>
+                {% for graduate in graduates %}
+              <tr data-widget="expandable-table" aria-expanded="false">
+                <td>
+                  <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                 {{graduate.first_name}} {{graduate.middle_name}}
+                </td>
+              </tr>
+              <tr class="expandable-body">
+                <td>
+                  <div class="p-0">
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr class="expandable-body">
+                          <td>
+                            <div class="p-0">
+                              <table class="table table-hover">
+                                <tbody>
+                                  <tr>
+                                    <td><span class="text-info font-weight-bolder">Last name</span>    :{{graduate.last_name}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><span class="text-info font-weight-bolder">Id</span>  :{{graduate.id}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><span class="text-info font-weight-bolder">Institution</span> :{{graduate.institution}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+                        
+                      
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+             {%endfor%}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+
+<!-- <div class="card-body table-responsive px-0">
+    <table class="table table-hover table-striped table-light">
+      <thead >
+
+        <tr>
+          <th>name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for graduate in graduates %}
+        <tr >
+          <td>{{graduate.first_name}}</td>
+        {% endfor %}
+       
+      </tbody>
+    </table>
+  </div> -->
+{% endblock %}

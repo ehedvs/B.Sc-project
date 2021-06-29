@@ -1,0 +1,43 @@
+{% extends 'registrar_admin/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block subtitle %}Upload Excel File{% endblock %}
+{% block first %}Home {% endblock %}
+{% block second %}Upload Excel File{% endblock %}
+{% block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputFile">Students excel data</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="myfile">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      <button type="submit " class="btn btn-outline-info">
+                        upload
+                      </button>
+                    </div>
+                </div>
+            </form>
+            {% if messages %}
+            {% for message in messages %}
+            
+            <p>{{message}}</p> 
+            
+            {% endfor %}
+            {% endif %}
+                         
+
+           
+        </div>
+    </div>
+   
+</div>
+
+    
+{% endblock %}
+

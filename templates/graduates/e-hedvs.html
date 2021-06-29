@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search|e-hedvs</title>
+     <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/e-hedvs.min.css ' %}">
+  
+  
+</head>
+<body>
+        <div class="container-fluid">
+       
+            <!-- Content Header (Page header) -->
+            <section class="content-header border-bottom shadow-sm mb-5">
+              <div class="container-fluid ">
+                <div class="row mb-2">
+                  <div class="col-sm-6">
+                    <h1>  <span class="text-primary ml-3" >e</span>-<span>HEDVS</span> </h1>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item"> <span class="text-primary font-weight-bolder">e</span><span class="font-italic">-HEDVS</span> </li>
+                      <li class="breadcrumb-item active">Search Page</li>
+                    </ol>
+                  </div>
+                </div>
+            </section>
+        
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    
+                    <div class="row">
+                        <div class="col-md-5 ">
+                            <h2 class="text-center display-5 ">Search</h2>
+
+                            <form action="{% url 'certificate' %}" method="GET">
+                              
+                                <div class="input-group ml-4 ">
+                                    <input type="search" class="form-control form-control-lg" placeholder=" Enter your Id" name='q' autocomplete="off">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-lg btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        <hr>
+                        <div class="col-md-6 border-left border-warning ml-3">
+                            <h2 class="text-center display-5 mr-3">Result</h2>
+                            {% if error_message %}
+                            
+                            <p class="text-danger text-center"> <strong> &#9989 {{error_message}}</strong></p>
+                            {% endif %}
+                            <p class='text-muted'>
+                              {% if student %}
+                                <ul class="list-group">
+                                 
+                                  <li class="list-group-item list-group-item-light text-center"><img class="rounded-circle account-img" 
+                                    style="width:200px; height: 200px;" src="{{student.certificate.qr_code.url }}"
+                                     alt="wrong" ></li>
+                                     <li class="list-group-item list-group-item-light text-center"><img class="rounded-circle account-img" 
+                                      style="width:200px; height: 200px;" src="{{student.institution.logo.url }}"
+                                       alt="wrong" ></li>
+                                     
+                                     <li class="list-group-item list-group-item-light">{{student.institution}}</li>
+                                     <li class="list-group-item list-group-item-light">{{student.institution.email}}</li>
+                                  <li class="list-group-item list-group-item-light">{{student.first_name}}</li>
+                                  
+                                  <li class="list-group-item list-group-item-light">{{student.middle_name}}</li>
+                                  <li class="list-group-item list-group-item-light">{{student.last_name}}</li>
+                                </ul>
+                                {% endif %}
+                              </p>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+          </div>
+    </div>
+</body>
+</html>
