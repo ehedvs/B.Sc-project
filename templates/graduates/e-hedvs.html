@@ -16,35 +16,33 @@
   
 </head>
 <body>
+<!-- Image and text -->
+<nav class="navbar navbar-light navbar-fixed-top fixed-top bg-white shadow-sm m-0 p-0 ">
+  <a class="navbar-brand" href="#">
+    <img src="{% static 'dist/img/logo.png' %}" class="d-inline-block align-top img-circle " alt="">
+    
+  </a>
+  <div>
+    <ol class="breadcrumb float-sm-right bg-transparent">
+      <li class="breadcrumb-item"> <i class="fa fa-search text-sm text-black"></i></li>
+      <li class="breadcrumb-item active"> <span class="font-weight-bold text-purple">e</span><span >-HEDVS</span> </li>
+      
+    </ol>
+  </div>
+</nav>
+
         <div class="container-fluid">
-       
-            <!-- Content Header (Page header) -->
-            <section class="content-header border-bottom shadow-sm mb-5">
-              <div class="container-fluid ">
-                <div class="row mb-2">
-                  <div class="col-sm-6">
-                    <h1>  <span class="text-primary ml-3" >e</span>-<span>HEDVS</span> </h1>
-                  </div>
-                  <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                      <li class="breadcrumb-item"> <span class="text-primary font-weight-bolder">e</span><span class="font-italic">-HEDVS</span> </li>
-                      <li class="breadcrumb-item active">Search Page</li>
-                    </ol>
-                  </div>
-                </div>
-            </section>
-        
-            <!-- Main content -->
-            <section class="content">
+            <section class="content" style="margin-top: 100px;">
                 <div class="container-fluid">
-                    
-                    <div class="row">
-                        <div class="col-md-5 ">
+                    <div class="row  ehedvs-search">
+
+                      
+                        <div class="col-md-4 ">
                             <h2 class="text-center display-5 ">Search</h2>
 
-                            <form action="{% url 'certificate' %}" method="GET">
+                            <form action="{% url 'certificate' %}" method="GET" >
                               
-                                <div class="input-group ml-4 ">
+                                <div class="input-group ml-4 shadow p-3 ">
                                     <input type="search" class="form-control form-control-lg" placeholder=" Enter your Id" name='q' autocomplete="off">
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-lg btn-default">
@@ -53,38 +51,70 @@
                                     </div>
                                 </div>
                             </form>
-
                         </div>
                         <hr>
-                        <div class="col-md-6 border-left border-warning ml-3">
-                            <h2 class="text-center display-5 mr-3">Result</h2>
+                      <!--
+                        <div class="col-md-4">
+                          <div class="card bg-dark text-white">
+                            <img class="card-img" src="{% static 'dist/img/ehedvs.jpg' %}" alt="Card image">
+                            <div class="card-img-overlay">
+                              <h2 class="text-center display-5 ">Search</h2>
+                              <form action="{% url 'certificate' %}" method="GET" >
+                              
+                                <div class="input-group  shadow p-3 ">
+                                    <input type="search" class="form-control form-control-lg" placeholder=" Enter your Id" name='q' autocomplete="off">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-lg btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                              
+                            </div>
+                          </div>
+                        </div>
+                       
+                          --->
+                        <div class="col-md-7 border-left border-secondary  ml-3">
+                            <h2 class="text-center display-5 mr-3 text-purple"> <i class="fa fa-graduation-cap"></i>  Result </h2>
                             {% if error_message %}
+                            <div class="alert alert-info text-center" role="alert">
+                              <i class="fa fa fa-exclamation-triangle text-danger"></i> {{error_message}}
+                            </div>
                             
-                            <p class="text-danger text-center"> <strong> &#9989 {{error_message}}</strong></p>
+                            <!--<p class="text-danger text-center"> <strong> &#9989 </strong></p>-->
                             {% endif %}
                             <p class='text-muted'>
                               {% if student %}
                                 <ul class="list-group">
-                                 
-                                  <li class="list-group-item list-group-item-light text-center"><img class="rounded-circle account-img" 
-                                    style="width:200px; height: 200px;" src="{{student.certificate.qr_code.url }}"
-                                     alt="wrong" ></li>
-                                     <li class="list-group-item list-group-item-light text-center"><img class="rounded-circle account-img" 
-                                      style="width:200px; height: 200px;" src="{{student.institution.logo.url }}"
-                                       alt="wrong" ></li>
-                                     
-                                     <li class="list-group-item list-group-item-light">{{student.institution}}</li>
-                                     <li class="list-group-item list-group-item-light">{{student.institution.email}}</li>
-                                  <li class="list-group-item list-group-item-light">{{student.first_name}}</li>
                                   
-                                  <li class="list-group-item list-group-item-light">{{student.middle_name}}</li>
-                                  <li class="list-group-item list-group-item-light">{{student.last_name}}</li>
+                                  <li class="list-group-item list-group-item-light text-center"><img class="rounded-circle account-img" 
+                                    style="width:200px; height: 200px;" src="{{student.institution.logo.url }}"
+                                     alt="wrong" >
+                                    </li>
+                                    <li class="list-group-item list-group-item-light text-center">{{student.institution}}</li>
+                                    <li class="list-group-item list-group-item-light text-center">{{student.institution.phone_no1}}</li>
+                                    <li class="list-group-item list-group-item-light text-center">{{student.institution.phone_no2}}</li>
+                                    <li class="list-group-item list-group-item-light text-center">{{student.institution.fax_no}}</li>
+                                  <li class="list-group-item list-group-item-light text-center"><img class="rounded-circle account-img" 
+                                    style="width:200px; height: 200px;" src="{{student.profile.qr_code.url }}"
+                                     alt="wrong" ></li>
+                                    
+                                     
+                                    
+                                     <li class="list-group-item list-group-item-light">{{student.institution.email}}</li>
+                                  <li class="list-group-item list-group-item-light">{{student
+                                    }}</li>
+                                  
+                                  
                                 </ul>
                                 {% endif %}
                               </p>
 
                             
                         </div>
+                        
                     </div>
                 </div>
             </section>

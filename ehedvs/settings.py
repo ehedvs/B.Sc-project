@@ -15,6 +15,7 @@ SECRET_KEY = 'django-insecure-+l*%g5us5d^-0=u*tceh@j(oo)$%7%5-vvyxm1hu4%cno!b)il
 DEBUG = True
 
 ALLOWED_HOSTS = []
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 
 # Application definition
@@ -26,10 +27,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'super_admin',
-    'crispy_forms',
     'accounts',
+    'super_admin',
     'registrar_admin',
+    'graduates',
+    'phonenumber_field',
+    'crispy_forms',
+    'django_filters',
+    'widget_tweaks',
 ] 
 CRISPY_TEMPLATE_PACK ='bootstrap4'
 
