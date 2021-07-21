@@ -10,7 +10,7 @@ class University(models.Model):
     website = models.URLField(max_length=200)
     pob = models.PositiveSmallIntegerField()
     city = models.CharField(max_length=200, blank=True)
-    logo = models.ImageField(upload_to="logos/", blank=True, null=True)
+    logo = models.ImageField(upload_to="logos/")
 
     def __str__(self):
         return self.name
