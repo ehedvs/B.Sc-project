@@ -12,6 +12,7 @@ from .filter import AcademicFilter,StudentFilter
 from datetime import date
 
 
+
 def index(request):
     return render(request,'graduates/home.html' )
 
@@ -258,8 +259,6 @@ def studentdata(request):
     graduates = Student.objects.all()
     context = {'graduates': graduates,  }
     return render(request, 'graduates/studentdata.html', context )
-
-   
 
 
 

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_filters',
     'widget_tweaks',
+    'rest_framework',
 ] 
 CRISPY_TEMPLATE_PACK ='bootstrap4'
 
