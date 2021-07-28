@@ -17,7 +17,8 @@ urlpatterns = [
     path('data/', views.table,  name='data'),
     path('search/', views.search, name='search'),
     path('delete/<str:date>/', views.delete_records, name='delete'),
-    path('student/', views.studentdata, name='student')
+    path('student/', views.studentdata, name='student'),
+    path('api/', views.get_profile, name='api'),
     
 
 

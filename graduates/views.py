@@ -10,6 +10,16 @@ from .forms import AcademicHistoryForm, ProfileUpdateForm, ExapleForm
 from django.utils import timezone
 from .filter import AcademicFilter,StudentFilter
 from datetime import date
+from .serializers import ProfileSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['GET'])
+def get_profile(request):
+    profiles = Profile.objects.all()
+    serializer = ProfileSerializer(profiles, many=True)
+    return Response(serializer.data)
+
 
 
 
