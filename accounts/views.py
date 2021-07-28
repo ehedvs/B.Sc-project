@@ -17,7 +17,7 @@ def login_page(request):
                 return redirect('/registrar_admin/')
         elif user is not None and user.is_registrar_staff:
                 login(request, user)
-                return redirect('/registrar_admin/')
+                return redirect('/graduates/')
         else:
             messages.info( request,'username or password is incorrect')
     return render(request, 'accounts/login.html')

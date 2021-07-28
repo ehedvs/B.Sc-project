@@ -5,6 +5,7 @@ from accounts.models import User, RegistrarAdmin, RegistrarStaff
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.db import transaction
+from django.contrib.auth.models import Group
 
         
 class AdminSignUpForm(UserCreationForm):
@@ -27,6 +28,8 @@ class AdminSignUpForm(UserCreationForm):
         user = super().save(commit=False)
         user. is_registrar_admin = True
         user.save()
+        group = Group.objects.get(name='registrar_admin')
+        user.groups.add(group)
         registrarAdmin = RegistrarAdmin.objects.create(user=user)
         registrarAdmin.university=self.cleaned_data.get('university')
         registrarAdmin.save()
@@ -59,6 +62,9 @@ class StaffSignUpForm(UserCreationForm):
         user = super().save(commit=False)
         user. is_registrar_staff = True
         user.save()
+        group = Group.objects.get(name='registrar_staff')
+        user.groups.add(group)
+        
        
         #univ = RegistrarAdmin.objects.get(user_id=userId)
         registrarStaff = RegistrarStaff.objects.create(user=user)

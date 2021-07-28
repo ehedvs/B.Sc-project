@@ -121,21 +121,11 @@
 <script src=" {% static 'dist/js/e-hedvs.min.js' %}"></script>
 <script>
     $('.student_table').DataTable({
-        ordering:false,
+         ordering:false,
+        //"order":[[2, "desc"]],
         lengthMenu:[[5,10,15,50,-1],[5,10,15,50,"All"]],
        
     });
-</script>
-<script>
-    
-  $('#datetimepicker1').datetimepicker({
-      timepicker:false,
-      datepicket:true,
-      format:'YYYY-MM-DD', 
-      weeks:true
-  });
-  
-
 </script>
 
 
