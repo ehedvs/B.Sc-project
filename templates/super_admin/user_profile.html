@@ -36,10 +36,7 @@
                               <a href="#" class="btn btn-sm bg-teal">
                                 <i class="fas fa-comments"></i>
                               </a>
-                              <a href="" class="btn btn-sm bg-info">
-                                <i class="fas fa-pencil-alt  "></i>
-                              </a>
-                              <a href="" class="btn btn-sm bg-danger">
+                              <a href="{% url 'super_admin:delete_user' list.user.id %}" class="btn btn-sm bg-danger">
                                 <i class="fas fa-trash-alt"></i>
                               </a>
                               <a href="#" class="btn btn-sm btn-primary">

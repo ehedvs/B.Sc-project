@@ -74,7 +74,7 @@
                 </div>
                 <div class="card-tools">
                 
-                      <a  type="submit" class="btn  btn-outline-success btn-xs mr-5 text-xs " href="" >
+                      <a  type="submit" class="btn  btn-outline-success btn-xs mr-5 text-xs " href="{% url 'super_admin:register' %}" >
                         <i class="fas fa-plus-circle"> Add new</i>
                       </a>
                   </div>
@@ -101,10 +101,10 @@
                       <td>{{list.email}}</td>
                       <td>{{list.phone_no1}}</td>
                       <td>
-                        <a href="" class="btn text-secondary px-0 "><i class="fas fa-pencil-alt  "></i></a>
+                        <a href="{% url 'super_admin:update_unv' list.id %}" class="btn text-secondary px-0 "><i class="fas fa-pencil-alt  "></i></a>
                       </td>
                      <td>
-                       <a href="" class="btn text-danger px-0 "><i class="fas fa-trash-alt "></i></a>
+                       <a href="{% url 'super_admin:delete_unv' list.id %}" class="btn text-danger px-0 "><i class="fas fa-trash-alt "></i></a>
                      </td>
                     </tr>
                     {% endfor %}

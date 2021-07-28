@@ -9,7 +9,7 @@ from django.contrib.auth.models import Group
 
         
 class AdminSignUpForm(UserCreationForm):
-    university = forms.ModelChoiceField(queryset=University.objects.all(), empty_label="please select unversity")
+    university = forms.ModelChoiceField(queryset=University.objects.all(), empty_label="Please select unversity")
     password1 = forms.CharField(
             label='Password', widget=forms.PasswordInput())
     password2 = forms.CharField(
