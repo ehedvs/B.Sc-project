@@ -31,11 +31,12 @@ INSTALLED_APPS = [
     'super_admin',
     'registrar_admin',
     'graduates',
+    'rest_framework',
     'phonenumber_field',
     'crispy_forms',
     'django_filters',
     'widget_tweaks',
-    'rest_framework',
+    
 ] 
 CRISPY_TEMPLATE_PACK ='bootstrap4'
 

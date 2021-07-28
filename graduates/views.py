@@ -13,6 +13,7 @@ from datetime import date
 
 
 
+
 def index(request):
     return render(request,'graduates/home.html' )
 
