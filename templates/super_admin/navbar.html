@@ -59,27 +59,28 @@
      <li class="nav-item dropdown user-menu">
       <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
         <img src="{% static 'dist/img/default.png' %}" class="user-image img-circle elevation-2" alt="User Image">
-        <span class="d-none d-md-inline text-capitalize">{{request.user}}</span>
+        <span class="d-none d-md-inline text-capitalize text-gray-dark">{{request.user}}</span>
       </a>
       <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
         <!-- User image -->
         <li class="user-header bg-default">
           <img src="{% static 'dist/img/1.jpg' %}" class="img-circle elevation-2" alt="User Image">
 
-          <p class="text-capitalize">
-           {{request.user}}
-            <small>Member since Jul. 2021</small>
+          <p class="text-capitalize ">
+            <span class="text-purple">{{request.user}}</span>
+           
+            <small> <strong>Member Since </strong>  {{request.user.date_joined|date:"F d,Y"}}</small>
           </p>
+          <div class="dropdown-divider m-0"></div>
         </li>
         <!-- Menu Body -->
-        <li class="user-body">
-          <a href="#" class="btn btn-outline-primary">Profile</a>
-          <a href="{% url 'accounts:logout' %}" class="btn btn-outline-info float-right">Sign out</a>
-          <!-- /.row -->
-        </li>
-       
+          <li class="text-center mb-1 hover" ><a href="#" class="text-secondary"><i class="fa fa-user mr-2 mb-1 text-purple"></i>Profile</a></li>
+          <li class="text-center mb-1"><a href="{% url 'accounts:logout' %}" class="text-secondary"><i class="fa fa-sign-out-alt mr-2 text-purple" ></i>logout</a></li>
+          <li class="text-center mb-1 hover"><a href="#!" class="text-secondary"><i class="fa fa-cog mr-2 text-purple"></i>Setting</a></li>
+          <li class="p-0">
+             <div class="dropdown-divider m-0"></div>
+        <br>
       </ul>
     </li>
-
     </ul>
   </nav>

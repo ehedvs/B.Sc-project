@@ -335,9 +335,15 @@ def get_students(request):
 
 
 @api_view(['GET'])
-def get_profile(request):
+def get_profiles(request):
     profiles = Profile.objects.all()
     serializer = ProfileSerializer(profiles, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_profile(request, student):
+    profile = Profile.objects.get(student=student)
+    serializer = ProfileSerializer(profile, many=False)
     return Response(serializer.data)
 
    

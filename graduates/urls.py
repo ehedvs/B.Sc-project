@@ -19,7 +19,8 @@ urlpatterns = [
     path('single/<path:id>/',views.single_certificate, name='certificate_detail'),
     path('multi/', views.multiple_certificate, name='multi'),
     path('api/', views.get_students, name='api'),
-    path('pro/', views.get_profile, name='pro'),
+    path('api/<path:student>/', views.get_profile, name='api_detail'),
+    path('pro/', views.get_profiles, name='pro'),
 
 
     
