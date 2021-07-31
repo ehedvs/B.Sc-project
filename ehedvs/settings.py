@@ -36,9 +36,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_filters',
     'widget_tweaks',
-    
-] 
-CRISPY_TEMPLATE_PACK ='bootstrap4'
+
+]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -127,6 +127,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AUTH_USER_MODEL="accounts.User"
+AUTH_USER_MODEL = "accounts.User"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ehedvs2021@gmail.com'
+EMAIL_HOST_PASSWORD = 'astu@2021'
+# EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+# EMAIL_HOST_USER = os.environ.get('EMAIL_PASS')
