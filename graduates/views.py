@@ -104,11 +104,11 @@ def delete_records(request, date):
         if num:
             num.delete()
             messages.success(request, "successfully deleted")
-            return redirect('/graduates/student')
+            return redirect('/graduates/graduates')
         else:
             messages.warning(
                 request, 'No records found with this selected dateeeee')
-            return redirect('/graduates/student')
+            return redirect('/graduates/graduates')
 
     return render(request, 'graduates/delete_students.html')
 
