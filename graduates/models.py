@@ -9,6 +9,9 @@ from django.core.files import File
 from PIL import Image, ImageDraw
 from accounts.models import User
 from django.contrib.auth import get_user_model
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+
 
 #from ehedvs import settings
 
@@ -79,22 +82,24 @@ class Profile(models.Model):
         return f'{self.student.first_name} Profile'
    
 
+#pre_save signal for generating  qr_code
 
-
-    def save(self, *args, **kwargs):
-        qrcode_img = qrcode.make(self.student.id)
+@receiver(pre_save, sender=Profile)  
+def profile_pre_save(sender, instance, *args, **kwargs):
+    if not instance.qr_code:
+        qrcode_img = qrcode.make(instance.student.id)
         canvas = Image.new('RGB', (320, 320), 'white')
         draw = ImageDraw.Draw(canvas)
         canvas.paste(qrcode_img)
-        fname = f'qr_code-{self.student.id}.png'
+        fname = f'qr_code-{instance.student.id}.png'
         buffer = BytesIO()
         canvas.save(buffer,'PNG')
-        self.qr_code.save(fname, File(buffer), save=False)
+        instance.qr_code.save(fname, File(buffer), save=False)
         canvas.close()
-        super().save(*args, **kwargs)
-        
 
 
+
+    
 class Certificate(models.Model):
     student = models.ForeignKey(Student,  on_delete=models.CASCADE, verbose_name='student_id')
     school= models.CharField(max_length=200, )
