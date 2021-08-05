@@ -6,16 +6,26 @@
 {% block first %}Home {% endblock %}
 {% block second %}Student Status{% endblock %}
 {% block content%}
+<div>
+  {% if messages %}
+  {% for m in messages %}
+  <script>
+    Swal.fire({
+      "title":"Success!",
+      "text":"{{m}}",
+      "icon":"success",
+      "width":400,
+      "height":100,
 
-<br>
+    })
+  </script>
+  {% endfor %}
+  {% endif %}
+
+</div>
 
   <div class="col">
     <div class="card card-body pl-5">
-      <form method="GET">
-    
-          
-       
-      </form>
       <form method="GET">
         <h6 class="text-purple"><i class="fas fa-filter mr-1 "></i>Filter Data</h6>
         <hr>

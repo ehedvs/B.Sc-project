@@ -1,10 +1,9 @@
 {% load static %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4 ">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-      <img src="{% static 'dist/img/ehedvs.jpg' %}"
-       alt="e-HECAS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light"><b class="text-primary">e</b>-HEDVS</span>
+    <a href="#" class="brand-link ">
+      <img src="{% static 'dist/img/gra.jpg' %}" alt="e-HECAS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light"><b class="text-primary">e</b> <span class="text-white font-italic font-weight-bolder">-HEDVS</span> </span>
     </a>
 
     <!-- Sidebar -->
@@ -14,8 +13,8 @@
         <div class="image">
           <img src="{% static 'dist/img/1.jpg' %}" class="img-circle elevation-2" alt="User Image">
         </div>
-        <div class="info text-capitalize">
-          <a href="#" class="d-block">{{request.user}}</a>
+        <div class="info">
+          <a href="#" class="d-block"> {{request.user}}</a>
         </div>
       </div>
 
@@ -39,14 +38,13 @@
        
           <li class="nav-item">
             <a href="{% url 'graduates:home' %}" class="nav-link {% block active %}{% endblock %}">
-              <i class="nav-icon fas fa-th"></i>
+                <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
-          
-          
+         <!---
           <li class="nav-item ">
             <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-file-excel "></i>
@@ -56,41 +54,35 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-
               <li class="nav-item">
                 <a href="{% url 'graduates:upload' %}" class="nav-link">
-                  <i class="fas fa-user-alt nav-icon text-olive"></i>
-                  <p ></p>Student Registration </p>
+                  <i class="fas fa-user-alt nav-icon"></i>
+                  <p class="text-lightblue">Student Registration </p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'graduates:academic' %}" class="nav-link">
-                  <i class="fas fa-history nav-icon text-olive"></i>
-                  <p >Academical Status</p>
+                  <i class="fas fa-pen-alt nav-icon"></i>
+                  <p class="text-lightblue">Academical Status</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{% url 'graduates:graduation' %}" class="nav-link">
-                  <i class="fas fa-address-card nav-icon text-olive"></i>
-                  <p >Graduation Result</p>
+                  <i class="fas fa-pen-alt nav-icon"></i>
+                  <p class="text-lightblue">Graduation Result</p>
                 </a>
               </li>
             </ul>
         </li>
-          
-         <li class="nav-item ">
-            <a href="{% url 'graduates:staff' %}" class="nav-link ">
-              <i class="nav-icon fa fa-graduation-cap "></i>
-              <p>
-               Graduates
-              </p>
-            </a>
-          </li>
+       
+         
+          -->
+         
           <li class="nav-item">
             <a href="{% url 'graduates:student' %}" class="nav-link ">
-              <i class="nav-icon fa fa-certificate "></i>
+              <i class="nav-icon fa fa-user-graduate "></i>
               <p>
-                certificate
+               Student Registry
               </p>
             </a>
           </li>
@@ -103,9 +95,18 @@
               </p>
             </a>
           </li>
+
+          <li class="nav-item ">
+            <a href="{% url 'graduates:certificate_generation' %}" class="nav-link ">
+              <i class="nav-icon fa fa-certificate "></i>
+              <p>
+              Generate Certificate
+              </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="#" class="nav-link ">
-              <i class="nav-icon fa fa-question-circle "></i>
+              <i class="nav-icon fa fa-question-circle"></i>
               <p>
                 Request
               </p>
@@ -115,6 +116,5 @@
       </nav>
       <!-- /.sidebar-menu -->
     </div>
-</aside>
-    
-  
+    <!-- /.sidebar -->
+  </aside>

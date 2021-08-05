@@ -209,6 +209,7 @@ def acadamic_history(request):
                 uploaded_date=now
             )
             messages.success(request, 'You have uploaded successfully!')
+            return redirect('/graduates/status/')
 
     return render(request, 'graduates/acadamic_history.html')
 
@@ -277,8 +278,15 @@ def student_certificates(request):
         'students':students
     }
     return render(request, 'graduates/certificate_list.html', context)
-
-
+    
+# certificate generation
+def certificate_generation(request):
+    certificates = Student.objects.all()
+    context = {
+        'certificates':certificates,
+        
+    }
+    return render(request, 'graduates/certificate_generation.html',context)
 
 #single certificate generation
 
