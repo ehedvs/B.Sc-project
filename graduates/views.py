@@ -16,6 +16,7 @@ from accounts.models import RegistrarStaff
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import StudentSerializer, ProfileSerializer
+from super_admin import signals
 
 #-------------------------------
 from django.http import HttpResponse
@@ -302,6 +303,8 @@ def single_certificate(request, *args, **kwargs):
     # if error then show some funy view
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    instance = student
+    signals.certificate_generated_signal.send(instance.__class__, instance=instance, request=request)
     return response
 
 
@@ -325,6 +328,8 @@ def multiple_certificate(request):
     # if error then show some funy view
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    instances = students
+    signals.certificates_generated_signal.send(instances.__class__, instances=instances, request=request)
     return response
 
 @api_view(['GET'])

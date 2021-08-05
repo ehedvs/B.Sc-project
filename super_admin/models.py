@@ -1,5 +1,8 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
+
 
 class University(models.Model):
     name = models.CharField(max_length=300)
@@ -14,6 +17,31 @@ class University(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# activitylog tracer 
+class ActivityLog(models.Model):
+    user = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.CASCADE)
+    instance = models.CharField(max_length=250)
+    operation = models.CharField(max_length=100, editable=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    ip_address = models.CharField(max_length=220, blank=True, null=True)
+
+    def __str__(self):
+        if self.operation == "student_registry":
+            return "%s Registed  %s on %s" % (self.user, self.instance, self.timestamp)
+        elif self.operation == "student_deletion":
+            return "%s Deleted %s on %s" % (self.user, self.instance, self.timestamp)
+        elif self.operation == "create_staff":
+            return "%s Created account for %s on %s" % (self.user, self.instance, self.timestamp)
+
+        elif self.operation == "certificate_generation":
+            return " Certificate of %s  generated on %s by %s" % (self.instance, self.timestamp, self.user)
+
+    class Meta:
+        ordering = ['-timestamp']
+
 
     
 
