@@ -137,9 +137,7 @@ def certificate(request):
 
 
 def know(request):
-    user = request.user.id
-    unv = RegistrarStaff.objects.get(user_id=user).university_id
-    return HttpResponse(unv)
+    return render(request, 'graduates/navbar.html')
 
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
