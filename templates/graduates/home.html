@@ -52,13 +52,13 @@
                           <div class="card-body">
                             <div class="tab-content" id="custom-tabs-four-tabContent">
                               <div class="tab-pane fade show active" id="custom-tabs-four-dashboard" role="tabpanel" aria-labelledby="custom-tabs-four-dashboard-tab">
-                              {% include 'graduates/summery.html' with students=students%}
+                              {% include 'graduates/summery.html' with student=student acadamic_historys=acadamic_historys profile=profile %}
                               </div>
                               <div class="tab-pane fade" id="custom-tabs-four-status" role="tabpanel" aria-labelledby="custom-tabs-four-status-tab">
                                 
                                 <div class="container">
                                   <div class="row">
-                                      <div class="col-md-6  m-3 p-3 bg-white">
+                                      <div class="col-md-5  p-3 bg-white">
                                           <form action="upload/" method="POST" enctype="multipart/form-data">
                                               {% csrf_token %}
                                               <div class="form-group">
@@ -76,6 +76,17 @@
                                               </div>
                                           </form> 
                                       </div>
+                                      <div class="card-body clearfix col-md-5">
+                                        <blockquote class="quote-gray-dark">
+                                         <img width="540px" src="{% static 'dist/img/student.png' %}" alt="example_image" class="mb-3">
+                                         <div>
+                                          
+                                          <small class="text-indigo"><cite title="Source Title"> <i class="fa fa-angle-double-right"></i> <strong>  Make sure your excel file look like the one
+                                             provided as above in the image </strong>
+                                             </cite></small>
+                                            </div>
+                                        </blockquote>
+                                      </div>
 
                                   </div>  
                                 </div>
@@ -85,7 +96,7 @@
                               
                                 <div class="container">
                                   <div class="row">
-                                      <div class="col-md-6  m-3 p-3 bg-white">
+                                      <div class="col-md-5 m-2  p-3 bg-white">
                                           <form action="academic/" method="POST" enctype="multipart/form-data">
                                               {% csrf_token %}
                                               <div class="form-group">
@@ -103,14 +114,25 @@
                                               </div>
                                           </form> 
                                       </div>
+                                      <div class="card-body clearfix col-md-5">
+                                        <blockquote class="quote-warning">
+                                         <img height="140px" width="450px" src="{% static 'dist/img/status.png' %}" alt="example_image" class="mb-3">
+                                         <div>
+                                          
+                                          <small class="text-indigo"><cite title="Source Title"> <i class="fa fa-angle-double-right"></i> <strong>  Make sure your excel file look like the one
+                                             provided as above in the image </strong>
+                                             </cite></small>
+                                            </div>
+                                        </blockquote>
+                                      </div>
                                   </div>  
                                 </div>
                               </div>
                               <div class="tab-pane fade " id="custom-tabs-four-graduation" role="tabpanel" aria-labelledby="custom-tabs-four-graduation-tab">
                                 <div class="container">
                                   <div class="row">
-                                      <div class="col-md-6  m-3 p-3 bg-white">
-                                          <form action="upload" method="POST" enctype="multipart/form-data">
+                                      <div class="col-md-5   p-3 bg-white">
+                                          <form action="graduation/" method="POST" enctype="multipart/form-data">
                                               {% csrf_token %}
                                                 <div class="form-group">
                                                     <label for="exampleInputFile"><span class="text-black">  Excel File Input</span>
@@ -129,8 +151,13 @@
                                       </div>
                                       <div class="card-body clearfix col-md-5">
                                         <blockquote class="quote-success">
-                                          <p>Change student default profile before generating certificate for prospective graduates</p>
-                                          <small>if not the certificate will bear <cite title="Source Title"> the default image </cite></small>
+                                         <img width="550px" src="{% static 'dist/img/graduation.png' %}" alt="example_image" class="mb-3">
+                                         <div>
+                                          
+                                          <p class="text-indigo"><cite title="Source Title"> <i class="fa fa-angle-double-right"></i> Make sure your excel file look like the one
+                                             provided as above in the image
+                                             </cite></p>
+                                            </div>
                                         </blockquote>
                                       </div>
                                   </div>  

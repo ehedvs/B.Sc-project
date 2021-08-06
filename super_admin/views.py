@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
-from super_admin.models import University
-from accounts.models import RegistrarAdmin, User
+from super_admin.models import University, ActivityLog
+from accounts.models import RegistrarAdmin, RegistrarStaff, User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from accounts.forms import AdminSignUpForm
@@ -18,7 +18,9 @@ from accounts.decorators import super_admin
 def dashboard(request):
     lists = University.objects.all().order_by('-id')
     total_unv = lists.count()
-    users =RegistrarAdmin.objects.all().count()
+    registrar_admin = RegistrarAdmin.objects.all().count()
+    registrar_staff = RegistrarStaff.objects.all().count()
+    users=registrar_admin+registrar_staff
     context = {'lists':lists , 'total_unv':total_unv, 'users':users}
     return render(request, 'super_admin/dashboard.html', context)
 
@@ -64,6 +66,8 @@ def useProfile(request):
 
 
 #update univeristy
+@login_required(login_url='accounts:login')
+@super_admin
 def updateUnv(request, pk):
     univ = University.objects.get(id=pk)
     form = UniversityForm(instance=univ)
@@ -76,6 +80,8 @@ def updateUnv(request, pk):
     return render(request, 'super_admin/register.html', context)
 
 #delete University
+@login_required(login_url='accounts:login')
+@super_admin
 def deleteUnv(request, pk ):
     univ = University.objects.get(id=pk)
     if request.method == 'POST':
@@ -86,6 +92,8 @@ def deleteUnv(request, pk ):
 
 
 #delet Registrar_admin
+@login_required(login_url='accounts:login')
+@super_admin
 def deleteRegAdmin(request, pk):
     user = User.objects.get(id=pk)
     if request.method == 'POST':
@@ -93,3 +101,22 @@ def deleteRegAdmin(request, pk):
         return redirect('/super_admin/user_profile')
     context = {'user':user}
     return render(request, 'super_admin/delete_user.html', context)
+
+#activity logs
+@login_required(login_url='accounts:login')
+@super_admin
+def activity_logs(request):
+    activities = ActivityLog.objects.all()
+    user_creation = ActivityLog.objects.filter(operation="create_staff").count()
+    student_registry = ActivityLog.objects.filter(operation="student_registry").count()
+    certificate_generation = ActivityLog.objects.filter(operation="student_deletion").count()
+    student_deletion = ActivityLog.objects.filter(operation="certificate_generation").count()
+    context = {
+
+       'activities':activities,
+       'user_creation':user_creation,
+       'student_registry':student_registry,
+       'certificate_generation': certificate_generation,
+       'student_deletion':student_deletion,
+    }
+    return render(request, 'super_admin/activiy_logs.html', context)

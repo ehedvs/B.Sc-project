@@ -10,4 +10,5 @@ urlpatterns = [
     path('update_unv/<int:pk>/',views.updateUnv, name='update_unv'),
     path('delete_unv/<int:pk>/',views.deleteUnv, name='delete_unv'),
     path('delete_user/<int:pk>/',views.deleteRegAdmin, name='delete_user'),
+    path('activity_logs/', views.activity_logs, name='activity_logs'),
 ]

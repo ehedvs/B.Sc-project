@@ -15,10 +15,10 @@ from accounts.decorators import registrar_staff, allowed_users
 from accounts.models import RegistrarStaff
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import StudentSerializer, ProfileSerializer
+from .serializers import StudentSerializer, ProfileSerializer, CertificateSerializer
 from super_admin import signals
 
-#-------------------------------
+# -------------------------------
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
@@ -26,14 +26,22 @@ from xhtml2pdf import pisa
 from graduates import serializers
 
 
-
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def index(request):
-    studnets = Student.objects.all()
-    acadamic_historys= AcademicHistory.objects.all()
-    certificates = Certificate.objects.all()
-    return render(request, 'graduates/home.html')
+    students = Student.objects.all().count()
+    acadamic_historys = AcademicHistory.objects.all().count()
+    profile = Profile.objects.filter(image='default.png').count()
+    #profile_changed =100-(profile/students)*100
+
+    #certificates = Certificate.objects.filter(image='default.png')
+    context = {
+        'students': students,
+        'acadamic_historys': acadamic_historys,
+        # 'profile_changed':profile_changed,
+        'profile': profile,
+    }
+    return render(request, 'graduates/home.html', context)
 
 
 @login_required(login_url='accounts:login')
@@ -142,6 +150,7 @@ def certificate(request):
 def know(request):
     return render(request, 'graduates/navbar.html')
 
+
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def upload(request):
@@ -181,6 +190,7 @@ def upload(request):
 
     return render(request, 'graduates/upload.html')
 
+
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def acadamic_history(request):
@@ -214,6 +224,7 @@ def acadamic_history(request):
 
     return render(request, 'graduates/acadamic_history.html')
 
+
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def graduation_result(request):
@@ -239,6 +250,7 @@ def graduation_result(request):
 
             )
             messages.success(request, 'You have uploaded successfully!')
+            return redirect('/graduates/')
     return render(request, 'graduates/graduation_result.html')
 
 
@@ -273,43 +285,48 @@ def studentdata(request):
     return render(request, 'graduates/studentdata.html', context)
 
 # certificate generation
+
+
 def certificate_generation(request):
     certificates = Student.objects.all()
     context = {
-        'certificates':certificates,
-        
-    }
-    return render(request, 'graduates/certificate_generation.html',context)
+        'certificates': certificates,
 
-#single certificate generation
+    }
+    return render(request, 'graduates/certificate_generation.html', context)
+
+# single certificate generation
+
 
 def single_certificate(request, *args, **kwargs):
     id = kwargs.get('id')
     student = get_object_or_404(Student, id=id)
-    
+
     template_path = 'graduates/single_certificate.html'
     context = {'student': student}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
     #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-    #if display 
-    response['Content-Disposition'] = 'filename="%s.pdf"'%student
+    # if display
+    response['Content-Disposition'] = 'filename="%s.pdf"' % student
     # find the template and render it.
     template = get_template(template_path)
     html = template.render(context)
 
     # create a pdf
     pisa_status = pisa.CreatePDF(
-       html, dest=response)
+        html, dest=response)
     # if error then show some funy view
     if pisa_status.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     instance = student
-    signals.certificate_generated_signal.send(instance.__class__, instance=instance, request=request)
+    signals.certificate_generated_signal.send(
+        instance.__class__, instance=instance, request=request)
     return response
 
+    # multiple certificate
 
-    #multiple certificate
+
 def multiple_certificate(request):
     students = Student.objects.all()
     template_path = 'graduates/multiple_certificate.html'
@@ -317,7 +334,7 @@ def multiple_certificate(request):
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
     #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-    #if display 
+    # if display
     response['Content-Disposition'] = 'filename="certificate.pdf"'
     # find the template and render it.
     template = get_template(template_path)
@@ -325,41 +342,40 @@ def multiple_certificate(request):
 
     # create a pdf
     pisa_status = pisa.CreatePDF(
-       html, dest=response)
+        html, dest=response)
     # if error then show some funy view
     if pisa_status.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     instances = students
-    signals.certificates_generated_signal.send(instances.__class__, instances=instances, request=request)
+    signals.certificates_generated_signal.send(
+        instances.__class__, instances=instances, request=request)
     return response
 
-
-
-
-@api_view(['GET'])
-def get_students(request):
-    students = Student.objects.all()
-    #profiles = Profile.objects.all()
-    stud_serializer = StudentSerializer(students, many=True)
-    #pro_serializer = ProfileSerializer(profiles, many=True)
-    #result_api = stud_serializer.data+pro_serializer.data
-    return Response(stud_serializer.data)
-
-   
-@api_view(['GET'])
-def get_student(request, id):
-    student = Student.objects.get(id=id)
-    serializer = StudentSerializer(student, many=False)
-    return Response(serializer.data)
-
+#serialize student profiles
 @api_view(['GET'])
 def get_profiles(request):
     students = Profile.objects.all()
     pro_serializer = ProfileSerializer(students, many=True)
     return Response(pro_serializer.data)
 
+#serialize student profile
 @api_view(['GET'])
 def get_profile(request, id):
     student = Profile.objects.get(student=id)
     serializer = ProfileSerializer(student, many=False)
+    return Response(serializer.data)
+
+
+# certificates serializer
+@api_view(['GET'])
+def get_certificates(request):
+    students = Certificate.objects.all()
+    pro_serializer = CertificateSerializer(students, many=True)
+    return Response(pro_serializer.data)
+
+# certificate serializer
+@api_view(['GET'])
+def get_certificate(request, id):
+    student = Certificate.objects.get(student=id)
+    serializer = CertificateSerializer(student, many=False)
     return Response(serializer.data)
