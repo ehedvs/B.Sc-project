@@ -1,7 +1,7 @@
 import datetime
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Student, AcademicHistory, Profile
+from .models import Certificate, Student, AcademicHistory, Profile
 from .resources import StudentResource, AcademicalResource, CertificateResource
 from django.contrib import messages
 from tablib import Dataset
@@ -30,6 +30,9 @@ from graduates import serializers
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def index(request):
+    studnets = Student.objects.all()
+    acadamic_historys= AcademicHistory.objects.all()
+    certificates = Certificate.objects.all()
     return render(request, 'graduates/home.html')
 
 
@@ -269,14 +272,6 @@ def studentdata(request):
     context = {'graduates': graduates, }
     return render(request, 'graduates/studentdata.html', context)
 
-#list of certificate
-def student_certificates(request):
-    students = Student.objects.all()
-    context = {
-        'students':students
-    }
-    return render(request, 'graduates/certificate_list.html', context)
-    
 # certificate generation
 def certificate_generation(request):
     certificates = Student.objects.all()
@@ -338,23 +333,33 @@ def multiple_certificate(request):
     signals.certificates_generated_signal.send(instances.__class__, instances=instances, request=request)
     return response
 
+
+
+
 @api_view(['GET'])
 def get_students(request):
     students = Student.objects.all()
-    serializer = StudentSerializer(students, many=True)
-    return Response(serializer.data)
+    #profiles = Profile.objects.all()
+    stud_serializer = StudentSerializer(students, many=True)
+    #pro_serializer = ProfileSerializer(profiles, many=True)
+    #result_api = stud_serializer.data+pro_serializer.data
+    return Response(stud_serializer.data)
 
+   
+@api_view(['GET'])
+def get_student(request, id):
+    student = Student.objects.get(id=id)
+    serializer = StudentSerializer(student, many=False)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def get_profiles(request):
-    profiles = Profile.objects.all()
-    serializer = ProfileSerializer(profiles, many=True)
-    return Response(serializer.data)
+    students = Profile.objects.all()
+    pro_serializer = ProfileSerializer(students, many=True)
+    return Response(pro_serializer.data)
 
 @api_view(['GET'])
-def get_profile(request, student):
-    profile = Profile.objects.get(id=student)
-    serializer = ProfileSerializer(profile, many=False)
+def get_profile(request, id):
+    student = Profile.objects.get(student=id)
+    serializer = ProfileSerializer(student, many=False)
     return Response(serializer.data)
-
-   

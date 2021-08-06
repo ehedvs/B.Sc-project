@@ -16,11 +16,14 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('delete/<str:date>/', views.delete_records, name='delete'),
     path('student/', views.studentdata, name='student'),
-    path('tempo/', views.student_certificates, name='tempo'),
     path('single/<path:id>/',views.single_certificate, name='single_certificate'),
     path('multi/', views.multiple_certificate, name='multi'),
-    path('api/', views.get_students, name='api'),
-    path('pro/', views.get_profile, name='pro'),
+    path('student_api/', views.get_students),
+    path('student_api/<path:id>/', views.get_student),
+    path('image_api/', views.get_profiles),
+    path('image_api/<path:id>/', views.get_profile),
+
+
     
 
 
