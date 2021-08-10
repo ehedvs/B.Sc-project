@@ -1,5 +1,9 @@
 from django.db import models
 from super_admin.models import University
+from django.conf import settings
+from accounts.models import RegistrarAdmin
+User = settings.AUTH_USER_MODEL
+
 
 
 
@@ -40,3 +44,24 @@ class Program(models.Model):
         return self.name
 
 
+# request db
+
+class Request(models.Model):
+    request_status =(
+        ('pending','pending'),
+        ('approved','approved'),
+        ('expired','expired'),
+    )
+    sender = models.ForeignKey(RegistrarAdmin, on_delete=models.CASCADE)
+    reciever = models.ForeignKey(User, on_delete=models.CASCADE)
+    request = models.TextField()
+    status = models.CharField(max_length=50, choices=request_status, default='pending')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+
+    class Meta:
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return self.request
+    

@@ -2,13 +2,14 @@ from django.http.response import HttpResponse
 from super_admin.models import University
 from django.shortcuts import redirect, render
 from .forms import FacultyForms, ProgramForms
-from. models import Faculty,Program
+from. models import Faculty,Program, Request
 from accounts.models import RegistrarStaff, RegistrarAdmin
 from accounts.forms import StaffSignUpForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from accounts.decorators import registrar_admin
+from django.contrib.auth import get_user_model
 
 
 
@@ -82,4 +83,16 @@ def useProfile(request):
 
 
 
-    
+# sending request to super_admin
+def send_request(request):
+    if request.method =='POST':
+        subject = request.POST.get('subject')
+        super_admin = get_user_model().objects.get(is_superuser=True)
+        logged_user = request.user
+        registrar_admin=RegistrarAdmin.objects.get(user=logged_user)
+        Request.objects.create(sender=registrar_admin, reciever=super_admin, request=subject)
+        #process_tasks()
+        
+        
+
+    return render(request, 'registrar_admin/request.html')

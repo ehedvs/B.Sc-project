@@ -1,0 +1,33 @@
+{% extends 'registrar_admin/main.html' %}
+{% load static %}
+{% block subtitle %}Dashboard{% endblock %}
+{% block first %}home {% endblock %}
+{% block second %}dashboard{% endblock %}
+{% block content%}
+<div class="card">
+    <div class="card-body row ">
+      <div class="col-4 text-center d-flex align-items-center justify-content-center border-right mr-5">
+        <div class="">
+          <h2>e<strong>-HEDVS</strong></h2>
+          <p class="lead mb-5">super_admin<br>
+            
+          </p>
+        </div>
+      </div>
+      <div class="col-4">
+       <form action="" method="POST">
+         {% csrf_token %}
+        <div class="form-group">
+          <label for="inputSubject">Subject</label>
+          <input type="text" id="inputSubject" class="form-control" name="subject" />
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Send message">
+        </div>
+      </form>
+    
+    </div>
+    </div>
+  </div>
+
+{% endblock %}
