@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_filters',
     'widget_tweaks',
+    'background_task',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
