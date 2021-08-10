@@ -10,6 +10,13 @@ from .forms import UniversityForm
 from accounts.decorators import super_admin
 from registrar_admin.models import Request
 
+from background_task import background
+from background_task.models import CompletedTask
+import subprocess
+import shlex
+
+
+
 
 
 
@@ -125,7 +132,7 @@ def activity_logs(request):
 
 # view send request
 def view_request(request):
-    subjects = Request.objects.all()
+    subjects = Request.objects.all()[0:5]
     context = {
         'subjects':subjects
     }
@@ -137,9 +144,33 @@ def approve_request(request, id):
     subject = Request.objects.get(id=id)
     if request.method == 'POST':
         Request.objects.filter(id=id).update(status="approved")
-        #CompletedTask.objects.all().delete()
-        #process_tasks()
-        #do_something(pk=id)
+        CompletedTask.objects.all().delete()
+        process_tasks()
+        expire_request(pk=id)
         return redirect('/super_admin/view_request')
     context = {'subject':subject}
     return render(request, 'super_admin/approve_request.html', context)
+
+#------------background task expring request-------#   
+@background(schedule=20)
+def expire_request(pk):
+    Request.objects.filter(id=pk).update(status="expired")
+   
+
+# running process tasks background
+def process_tasks():
+    process_tasks_cmd = "python manage.py process_tasks"
+    process_tasks_ags = shlex.split(process_tasks_cmd)
+    process_tasks_subprocess = subprocess.Popen(process_tasks_ags)
+
+# request expired checker
+def checker(request):
+    req = Request.objects.all().first()
+    if req:
+        status = req.status
+
+    else:
+        status = 'none'
+
+    
+    return HttpResponse(status)

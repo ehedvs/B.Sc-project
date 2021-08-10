@@ -1,6 +1,9 @@
 {% extends 'super_admin/main.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% block css %}
+
+{% endblock %}
 {% block subtitle %}University{% endblock %}
 {% block first %}home {% endblock %}
 {% block second %}University{% endblock %}
@@ -24,7 +27,7 @@
                     <tbody id="request-status">
                         {% for subject in subjects %}
                         <tr >
-                            <td>{{subject.timestamp}}</td>
+                            <td class="text-info">{{subject.timestamp}}</td>
                             <td class='text-capitalize'>{{subject.sender}}</td>
                             {% if subject.status == 'pending'%}
                             <td class="text-info">{{subject.request}}</td>
@@ -50,7 +53,7 @@
                             <td class="ml-5" >
                                 <a style="text-decoration: line-through;"
                                  href="{% url 'super_admin:approve_request' subject.id %}"
-                                  class="btn btn-outline-danger btn-sm offset-2 mr-1 disabled" >approved</a>
+                                  class="btn btn-outline-danger btn-sm offset-2 mr-1 disabled" >expired</a>
                             </td>
                             
                             {% endif %}
@@ -71,16 +74,22 @@
 <script>
     $(document).ready(function(){
        var status =   setInterval(function(){
+           
                 $.ajax({url: "{% url 'super_admin:check' %}", success: function(result){
-                console.log(result == "exprired");
-                if(result == 'exprired') { 
-                    $("#request-status tr:eq(0) td").toArray()[3].innerHTML = 'exprired'
+                console.log(result)
+                if (result=='none'){
+                    clearInterval(status)
+
+                }
+                if(result == 'expired') { 
+                    $("#request-status tr:eq(0) td").toArray()[3].innerHTML = "expired"
                    clearInterval(status)
                     
                 }
                 if(result == 'pending') {
                     clearInterval(status)
                 }
+
             }});
             }, 2000);
 

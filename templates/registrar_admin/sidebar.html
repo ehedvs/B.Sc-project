@@ -45,7 +45,7 @@
               </p>
             </a>
           </li>
-          {% if request.user.is_registrar_admin %}
+          
           <li class="nav-item ">
             <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-th"></i>
@@ -79,14 +79,6 @@
             </a>
           </li>
         
-          <li class="nav-item">
-            <a href="#" class="nav-link ">
-              <i class="nav-icon fas fa-passport"></i>
-              <p>
-                Account
-              </p>
-            </a>
-          </li>
 
           <li class="nav-item">
             <a href="{% url 'registrar_admin:user_profile' %}" class="nav-link ">
@@ -104,33 +96,14 @@
               </p>
             </a>
           </li>
-          {% endif %}
           <li class="nav-item">
-            <a href="#" class="nav-link ">
-              <i class="nav-icon fa fa-user-check"></i>
+            <a href="{% url 'registrar_admin:send_request' %}" class="nav-link ">
+              <i class="nav-icon fa fa-question-circle"></i>
               <p>
-                Request
+               Send Request
               </p>
             </a>
           </li>
-          {% if request.user.is_registrar_staff %}
-          <li class="nav-item ">
-            <a href="{" class="nav-link ">
-              <i class="nav-icon fa fa-upload "></i>
-              <p>
-                upload 
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link ">
-              <i class="nav-icon fa fa-graduation-cap"></i>
-              <p>
-                certificate
-              </p>
-            </a>
-          </li>
-         {% endif %}
 
         </ul>
       </nav>

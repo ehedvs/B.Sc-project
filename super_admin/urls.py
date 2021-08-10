@@ -13,4 +13,5 @@ urlpatterns = [
     path('activity_logs/', views.activity_logs, name='activity_logs'),
     path('view_request/', views.view_request, name='view_request'),
     path('approve_request/<str:id>/',views.approve_request, name='approve_request'),
+    path('check/', views.checker, name='check')
 ]
