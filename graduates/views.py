@@ -12,11 +12,12 @@ from .filter import AcademicFilter, StudentFilter
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import registrar_staff, allowed_users
-from accounts.models import RegistrarStaff
+from accounts.models import RegistrarStaff, RegistrarAdmin
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import StudentSerializer, ProfileSerializer, CertificateSerializer
 from super_admin import signals
+from registrar_admin.models import Request
 
 # -------------------------------
 from django.http import HttpResponse
@@ -29,6 +30,13 @@ from graduates import serializers
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def index(request):
+    status = "pending"
+    uni = RegistrarStaff.objects.get(user = request.user).university
+    admin = RegistrarAdmin.objects.get(university=uni)
+    if Request.objects.filter(sender=admin)[0:1]:
+        sub = Request.objects.filter(sender=admin)[0:1].values('status')[0]
+        status= sub['status']
+
     students = Student.objects.all().count()
     acadamic_historys = AcademicHistory.objects.all().count()
     profile = Profile.objects.filter(image='default.png').count()
@@ -40,9 +48,18 @@ def index(request):
         'acadamic_historys': acadamic_historys,
         # 'profile_changed':profile_changed,
         'profile': profile,
+        'status':status
     }
     return render(request, 'graduates/home.html', context)
 
+def request_approved_checker(request):
+    status = "pending"
+    uni = RegistrarStaff.objects.get(user = request.user).university
+    admin = RegistrarAdmin.objects.get(university=uni)
+    if Request.objects.filter(sender=admin)[0:1]:
+        sub = Request.objects.filter(sender=admin)[0:1].values('status')[0]
+        status= sub['status']
+    return HttpResponse(status)
 
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])

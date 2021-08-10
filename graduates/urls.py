@@ -4,6 +4,7 @@ app_name ='graduates'
 urlpatterns = [
 
     path('', views.index, name='home'),
+    path('request_approved_checker', views.request_approved_checker, name='request_approved_checker'),
     path('upload/', views.upload, name='upload' ),
     path('certificate/', views.certificate, name='e-hedvs' ),
     path('academic/', views.acadamic_history, name='academic'),

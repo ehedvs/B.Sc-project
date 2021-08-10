@@ -30,11 +30,14 @@
                                 <a class="nav-link active" id="custom-tabs-four-dashboard-tab" data-toggle="pill" href="#custom-tabs-four-dashboard" role="tab"
                                  aria-controls="custom-tabs-four-dashboard" aria-selected="true"><i class="fa fa-file-invoice mr-1"></i>  Analytical Summery </a>
                               </li>
+                              <div id="uploader-interface">
+                                {% if status == "approved" %}
                               <li class="nav-item">
                                 <a class="nav-link" id="custom-tabs-four-status-tab" data-toggle="pill" 
                                 href="#custom-tabs-four-status" role="tab" aria-controls="custom-tabs-four-status" 
                                 aria-selected="false"> <i class="fa fa-user-plus text-navy"></i> Student Registration </a>
                               </li>
+                             
                               <li class="nav-item">
                                 <a class="nav-link" id="custom-tabs-four-certificate-tab" data-toggle="pill"
                                  href="#custom-tabs-four-certificate" role="tab" aria-controls="custom-tabs-four-certificate"
@@ -46,6 +49,8 @@
                                  href="#custom-tabs-four-graduation" role="tab" aria-controls="custom-tabs-four-graduation"
                                   aria-selected="false" > <i class="fa fa-graduation-cap text-success"></i> Graduation Result</a>
                               </li>
+                              {% endif %}
+                            </div>
                   
                             </ul>
                           </div>
@@ -249,15 +254,36 @@
 
 
 
-<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
-<!-- Bootstrap 4 -->
-<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'plugins/bs-custom-file-input/bs-custom-file-input.min.js' %}"></script>
-<script src=" {% static 'dist/js/e-hedvs.min.js' %}"></script>
+ 
+
+{% endblock %}
+{% block javascript %}
 <script>
-    $(function () {
-      bsCustomFileInput.init();
-    });
-    </script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+  </script>
+
+
+<script>
+  $(document).ready(function(){
+     var status =   setInterval(function(){
+         
+              $.ajax({url: "{% url 'graduates:request_approved_checker' %}", success: function(result){
+              if (result=='expired' || result=='pending'){
+                
+                console.log(result)
+                $("#uploader-interface").hide()
+              }
+              if (result=='approved'){
+              $("#uploader-interface").show()
+              console.log(result)
+              }
+
+          }});
+          }, 3000);
+
+  });
+</script>
 
 {% endblock %}
