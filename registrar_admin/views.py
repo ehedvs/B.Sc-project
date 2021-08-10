@@ -77,7 +77,9 @@ def createAccount(request):
 @login_required(login_url='accounts:login')
 @registrar_admin
 def useProfile(request):
-    lists = RegistrarStaff.objects.all().order_by('-user_id')[:6]
+    logged_user = request.user
+    univ = RegistrarAdmin.objects.get(user=logged_user).university
+    lists = RegistrarStaff.objects.filter(university=univ).order_by('-user_id')[:6]
     context = {'lists':lists}
     return render(request, 'registrar_admin/user_profile.html', context)
 
