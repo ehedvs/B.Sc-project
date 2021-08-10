@@ -8,6 +8,7 @@ from accounts.forms import AdminSignUpForm
 from django.contrib.auth.decorators import login_required
 from .forms import UniversityForm
 from accounts.decorators import super_admin
+from registrar_admin.models import Request
 
 
 
@@ -120,3 +121,25 @@ def activity_logs(request):
        'student_deletion':student_deletion,
     }
     return render(request, 'super_admin/activiy_logs.html', context)
+
+
+# view send request
+def view_request(request):
+    subjects = Request.objects.all()
+    context = {
+        'subjects':subjects
+    }
+    return render(request, 'super_admin/view_request.html', context)
+
+
+# approving request
+def approve_request(request, id):
+    subject = Request.objects.get(id=id)
+    if request.method == 'POST':
+        Request.objects.filter(id=id).update(status="approved")
+        #CompletedTask.objects.all().delete()
+        #process_tasks()
+        #do_something(pk=id)
+        return redirect('/super_admin/view_request')
+    context = {'subject':subject}
+    return render(request, 'super_admin/approve_request.html', context)
