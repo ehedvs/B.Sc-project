@@ -87,6 +87,9 @@ def useProfile(request):
 
 # sending request to super_admin
 def send_request(request):
+    logged_user = request.user
+    registrar_admin=RegistrarAdmin.objects.get(user=logged_user)
+    requests = Request.objects.filter(sender=registrar_admin)[0:4]
     if request.method =='POST':
         subject = request.POST.get('subject')
         super_admin = get_user_model().objects.get(is_superuser=True)
@@ -96,5 +99,14 @@ def send_request(request):
         #process_tasks()
         
         
+    context ={
+        'requests':requests
+    }
+    return render(request, 'registrar_admin/request.html', context)
 
-    return render(request, 'registrar_admin/request.html')
+
+def delete_request(request, id):
+    rqst = Request.objects.get(id=id)
+    rqst.delete()
+    return redirect('/registrar_admin/send_request/')
+

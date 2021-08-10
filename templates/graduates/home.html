@@ -4,7 +4,7 @@
 {% block subtitle %} Registrar Staff Dashboard {% endblock %}
 {% block first %}Home {% endblock %}
 {% block second %}Dashboard{% endblock %}
-{% block content%}
+{% block content %}
 
 
 <section class="content mt-5">
@@ -25,15 +25,14 @@
                   <div class="row">
                     <div class="col-12 p-2 ">
                         <div>
-                            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                              <li class="nav-item">
-                                <a class="nav-link active" id="custom-tabs-four-dashboard-tab" data-toggle="pill" href="#custom-tabs-four-dashboard" role="tab"
-                                 aria-controls="custom-tabs-four-dashboard" aria-selected="true"><i class="fa fa-file-invoice mr-1"></i>  Analytical Summery </a>
-                              </li>
-                              <div id="uploader-interface">
+                            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">                              
                                 {% if status == "approved" %}
+                                <li class="nav-item">
+                                  <a class="nav-link active" id="custom-tabs-four-dashboard-tab" data-toggle="pill" href="#custom-tabs-four-dashboard" role="tab"
+                                   aria-controls="custom-tabs-four-dashboard" aria-selected="true"><i class="fa fa-file-invoice mr-1"></i>  Analytical Summery </a>
+                                </li>
                               <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-four-status-tab" data-toggle="pill" 
+                                <a  class="nav-link" id="custom-tabs-four-status-tab" data-toggle="pill" 
                                 href="#custom-tabs-four-status" role="tab" aria-controls="custom-tabs-four-status" 
                                 aria-selected="false"> <i class="fa fa-user-plus text-navy"></i> Student Registration </a>
                               </li>
@@ -50,7 +49,32 @@
                                   aria-selected="false" > <i class="fa fa-graduation-cap text-success"></i> Graduation Result</a>
                               </li>
                               {% endif %}
-                            </div>
+
+                              {% if status == "expired" or status == "pending" %}
+
+                              <li class="nav-item">
+                                <a class="nav-link active" id="custom-tabs-four-dashboard-tab" data-toggle="pill" href="#custom-tabs-four-dashboard" role="tab"
+                                 aria-controls="custom-tabs-four-dashboard" aria-selected="true"><i class="fa fa-file-invoice mr-1"></i>  Analytical Summery </a>
+                              </li>
+                              <li class="nav-item">
+                                <a  class="nav-link disabled" id="custom-tabs-four-status-tab" data-toggle="pill" 
+                                href="#custom-tabs-four-status" role="tab" aria-controls="custom-tabs-four-status" 
+                                aria-selected="false"> <i class="fa fa-user-plus text-navy"></i> Student Registration </a>
+                              </li>
+                             
+                              <li class="nav-item">
+                                <a class="nav-link disabled" id="custom-tabs-four-certificate-tab" data-toggle="pill"
+                                 href="#custom-tabs-four-certificate" role="tab" aria-controls="custom-tabs-four-certificate"
+                                  aria-selected="false" > <i class="fa fa-history text-warning"></i> Academical Status</a>
+                              </li>
+                         
+                              <li class="nav-item">
+                                <a class="nav-link disabled" id="custom-tabs-four-graduation-tab" data-toggle="pill"
+                                 href="#custom-tabs-four-graduation" role="tab" aria-controls="custom-tabs-four-graduation"
+                                  aria-selected="false" > <i class="fa fa-graduation-cap text-success"></i> Graduation Result</a>
+                              </li>
+                              {% endif %}
+                            
                   
                             </ul>
                           </div>
@@ -247,43 +271,17 @@
     <!-- ./col -->
   </div>
   </div>
+ 
   </section>
 
-
-
-
-
-
- 
-
 {% endblock %}
+
+
 {% block javascript %}
 <script>
   $(function () {
     bsCustomFileInput.init();
   });
   </script>
-
-
-<script>
-  $(document).ready(function(){
-     var status =   setInterval(function(){
-         
-              $.ajax({url: "{% url 'graduates:request_approved_checker' %}", success: function(result){
-              if (result=='expired' || result=='pending'){
-                
-                console.log(result)
-                $("#uploader-interface").hide()
-              }
-              if (result=='approved'){
-              $("#uploader-interface").show()
-              console.log(result)
-              }
-
-          }});
-          }, 3000);
-
-  });
-</script>
 
 {% endblock %}

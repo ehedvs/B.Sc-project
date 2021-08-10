@@ -152,7 +152,7 @@ def approve_request(request, id):
     return render(request, 'super_admin/approve_request.html', context)
 
 #------------background task expring request-------#   
-@background(schedule=200)
+@background(schedule=20)
 def expire_request(pk):
     Request.objects.filter(id=pk).update(status="expired")
    

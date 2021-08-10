@@ -4,7 +4,7 @@
 {% block css %}
 
 {% endblock %}
-{% block subtitle %}University{% endblock %}
+{% block subtitle %}Request{% endblock %}
 {% block first %}home {% endblock %}
 {% block second %}University{% endblock %}
 
@@ -18,9 +18,9 @@
                     <thead class=" bg-olive">
                         <tr>
                             <th>Date</th>
-                            <th>Sender</th>
+                            <th>Sender( <span class="text-black-50">ADIMN</span> of) </th>
                             <th style="width: 300px;">Request</th>
-                            <th >Status</th>
+                            <th class="">Status</th>
                              <th></th>
                         </tr>
                     </thead>
@@ -28,7 +28,7 @@
                         {% for subject in subjects %}
                         <tr >
                             <td class="text-info">{{subject.timestamp}}</td>
-                            <td class='text-capitalize'>{{subject.sender}}</td>
+                            <td class='text-capitalize'>{{subject.sender.university}}</td>
                             {% if subject.status == 'pending'%}
                             <td class="text-info">{{subject.request}}</td>
                             <td class="text-info" >{{subject.status}}</td>

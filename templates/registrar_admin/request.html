@@ -1,33 +1,76 @@
 {% extends 'registrar_admin/main.html' %}
 {% load static %}
-{% block subtitle %}Dashboard{% endblock %}
+{% block subtitle %}Request{% endblock %}
 {% block first %}home {% endblock %}
 {% block second %}dashboard{% endblock %}
 {% block content%}
 <div class="card">
-    <div class="card-body row ">
-      <div class="col-4 text-center d-flex align-items-center justify-content-center border-right mr-5">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+      <div class="col-6 text-center d-flex align-items-center justify-content-center border-right mr-5">
         <div class="">
-          <h2>e<strong>-HEDVS</strong></h2>
+          <h2> To : <br> <br> <span class="brand-text font-weight-light"><b class="text-primary">e</b>-HEDVS</span></h2>
           <p class="lead mb-5">super_admin<br>
             
           </p>
         </div>
       </div>
-      <div class="col-4">
-       <form action="" method="POST">
-         {% csrf_token %}
-        <div class="form-group">
-          <label for="inputSubject">Subject</label>
-          <input type="text" id="inputSubject" class="form-control" name="subject" />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body table-responsive p-3">
+          <table class="table table-striped table-valign-middle certificate table-borderless">
+            
+            <thead>
+              
+            <tr>
+              <th>Date sent </th>
+              <th>Request</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+            </thead>
+            
+            <tbody>
+              {% for request in requests %}  
+            <tr>
+              <td>
+                {{request.timestamp}}
+              </td>
+              <td>{{request.request}} </td>
+              {% if request.status == 'expired' %}
+              <td class="text-danger">{{request.status}}</td>
+              {% endif %}
+              {% if request.status == 'pending' %}
+              <td class="text-info">{{request.status}}</td>
+              {% endif %}
+              {% if request.status == 'approved' %}
+              <td class="text-success">{{request.status}}</td>
+              {% endif %}
+              <td> <a href="{% url 'registrar_admin:delete_request' request.id %}"><i class="fa fa-trash-alt text-warning"></i></a> </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
         </div>
-        <div class="form-group">
-          <input type="submit" class="btn btn-primary" value="Send message">
-        </div>
-      </form>
-    
+      </div>
     </div>
+    <div class="col-md-4 border-right  mr-5">
+      <form action="" method="POST">
+        {% csrf_token %}
+       <div class="form-group">
+         <label for="inputSubject">Request</label>
+         <input type="text" id="inputSubject" class="form-control" name="subject" />
+       </div>
+       <div class="form-group">
+         <input type="submit" class="btn btn-primary" value="Send Request">
+       </div>
+     </form>
+    </div>
+     
     </div>
   </div>
 
 {% endblock %}
+
+

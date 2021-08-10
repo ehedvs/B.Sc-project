@@ -9,4 +9,6 @@ urlpatterns = [
     path('account/', views.createAccount, name='account'),
     path('user_profile/', views.useProfile, name='user_profile'),
     path('send_request/', views.send_request, name='send_request'),
+    path('delete_request/<int:id>/', views.delete_request, name='delete_request'),
+
 ]

@@ -31,18 +31,16 @@
   </div>
 </nav>
 
-        <div class="container-fluid">
+   <div class="container-fluid">
             <section class="content" style="margin-top: 100px;">
                 <div class="container-fluid">
-                    <div class="row  ehedvs-search">
-
-                      
+                    <div class="row ehedvs-search">
                         <div class="col-md-4 ">
                             <h2 class="text-center display-5 ">Search</h2>
 
                             <form action="{% url 'certificate' %}" method="GET" >
                               
-                                <div class="input-group ml-4 shadow p-3 ">
+                                <div class="input-group  shadow p-3 ">
                                     <input type="search" class="form-control form-control-lg" placeholder=" Enter your Id" name='q' autocomplete="off">
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-lg btn-default">
@@ -76,8 +74,8 @@
                         </div>
                        
                           --->
-                        <div class="col-md-7 border-left border-secondary  ml-3">
-                            <h2 class="text-center display-5 mr-3 text-purple"> <i class="fa fa-graduation-cap"></i>  Result </h2>
+                        <div class="col-md-7 border-left border-secondary  ml-3 mt-5">
+                            <h2 class="text-center display-5 mr-3 text-purple mb-5"> <i class="fa fa-graduation-cap"></i>  Result </h2>
                             {% if error_message %}
                             <div class="alert alert-info text-center" role="alert">
                               <i class="fa fa fa-exclamation-triangle text-danger"></i> {{error_message}}
@@ -88,7 +86,7 @@
                             <p class='text-muted'>
                               {% if student %}
                               <div class="image">
-                                <img class="image" src="{{student.profile.image.url}}" alt="profile" height="150px" width="114px" >
+                                <img class="image offset-10" src="{{student.profile.image.url}}" alt="profile" height="150px" width="114px" >
                                </div>
                             <div class="logo">
                                 <img  src="{{student.institution.logo.url}}" alt="" height="130px">
@@ -120,8 +118,7 @@
                                  transcript which will be given the completion of the obigation stated in the cost sharing scheme
                                 </p>  
                          
-                                <h1  style="border-top: 1px solid black; margin-left: 390px; margin-right: 250px;">
-                                 <span style="margin-left: 500px;">Registrar</span></h1>
+                                
                             </div>
                             <div class="qrcode">
                                 <img class="qrcode" src="{{student.profile.qr_code.url}} " alt="qr_code" height="130px ">
@@ -136,7 +133,7 @@
                 </div>
             </section>
             <!-- /.content -->
-          </div>
-    </div>
+     </div>
+    
 </body>
 </html>
