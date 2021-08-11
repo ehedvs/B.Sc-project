@@ -79,8 +79,12 @@ def student_status(request):
     students = AcademicHistory.objects.all().order_by('-uploaded_date')
     myfilter = AcademicFilter(request.GET, queryset=students)
     students = myfilter.qs
-    #student =myfilter.qs
-    context = {'students': students, 'myfilter': myfilter}
+    deletion_number = students.count()
+    if request.method == 'POST':
+        students.delete()
+        return redirect('/graduates/status/')
+    context = {'students': students, 'myfilter': myfilter,
+      'deletion_number': deletion_number}
     return render(request, 'graduates/student_status.html', context)
 
 
@@ -396,3 +400,4 @@ def get_certificate(request, id):
     student = Certificate.objects.get(student=id)
     serializer = CertificateSerializer(student, many=False)
     return Response(serializer.data)
+

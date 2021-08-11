@@ -23,7 +23,7 @@ urlpatterns = [
     path('image_api/<path:id>/', views.get_profile),
     path('student_api/', views.get_certificates),
     path('student_api/<path:id>/', views.get_certificate),
-
+    
 
 
     
