@@ -16,6 +16,7 @@ urlpatterns = [
     path('file/',views.know, name='file' ),
     path('profile/<path:pk>/',views.profile, name='profile' ),
     path('search/', views.search, name='search'),
+    path('search_graduates/', views.search, name='search_graduates'),
     path('delete/<str:date>/', views.delete_records, name='delete'),
     path('student/', views.studentdata, name='student'),
     path('single/<path:id>/',views.single_certificate, name='single_certificate'),

@@ -106,6 +106,7 @@ class Certificate(models.Model):
     dept = models.CharField(max_length=200,  verbose_name='Department')
     GPA = models.FloatField(default=0.0 )
     CGPA = models.FloatField(default=0.0 )
+    uploaded_date = models.DateField(auto_now_add=True, null=True)
 
 
     def __str__(self):

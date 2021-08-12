@@ -74,3 +74,8 @@ class CertificateResource(resources.ModelResource):
         report_skipped = False
         import_id_fields=('student',)
         fields = ('student', 'school','dept', 'GPA','CGPA')
+
+        def before_import_row(self, row, row_number, **kwargs):
+            row['uploaded_date'] = kwargs['uploaded_date']
+            
+        

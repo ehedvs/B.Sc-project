@@ -24,34 +24,28 @@
 </div>
 
 <div class="row mt-3 mb-3">
+  <div class="col-sm-7">
+    <div class="callout callout-success p-4">
+           <h5><i class="fas fa-info"></i> <span class="text-primary">Note:</span> </h5>
+           <p>  This page has been designed for enabling you to interact with student registry you have uploaded.
+            You can select the number of records viewed on the page.
+           . And also you can search through your upload  records </p>
+           
+         </div>
+ </div>
   <div class="col-sm-5">
     <form action="{% url 'graduates:search' %}" method="GET">
-      <div class="card">
-      <h6 class="card-header"> <i class="fa fa-trash-alt text-danger text-sm mr-1"></i>Delete Multiple records</h6>
+      <div class="card ">
+      <h6 class="card-header"> <i class="fa fa-trash-alt text-danger text-sm mr-3"></i>Delete Multiple records</h6>
       <div class="card-body">
         <label for="date" >Select registration date to delete</label>
         <div class="input-group">
         <input type="date" name="date" class="form-control" id="date" placeholder="Select Date to delete multiple records" required/>
-         <button type="submit" class="btn btn-danger btn-sm ml-2" >
-             <i class="fa fa-trash-alt text-white"></i>
-         </button>
+        <button type="submit" class="btn  ml-2" >
+          <i class="fa fa-trash-alt text-lg text-danger"></i>
+      </button>
         </div>
          
-      </div>
-  
-    </div>
-  </form>
-  </div>
-  <div class="col-sm-7">
-    <form action="{% url 'graduates:search' %}" method="GET">
-      <div class="card">
-      <h6 class="card-header"><i class="fa fa-puzzle-piece text-info text-sm mr-1"></i>Student summaries</h6>
-      <div class="card-body">
-        <ul>
-          <li><strong>Students: 250</strong></li>
-          <li><strong>Profile: 100</strong></li>
-          <li><strong>Academic Status: 400</strong></li>
-      </ul>
       </div>
   
     </div>

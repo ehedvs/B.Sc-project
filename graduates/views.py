@@ -90,7 +90,11 @@ def student_status(request):
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def student_graduation_result(request):
-    return render(request, 'graduates/student.graduation_result.html')
+    graduates = Certificate.objects.all()
+    context ={
+        'graduates':graduates
+    }
+    return render(request, 'graduates/student.graduation_result.html', context)
 
 
 @login_required(login_url='accounts:login')
@@ -149,6 +153,39 @@ def delete_records(request, date):
             return redirect('/graduates/student')
 
     return render(request, 'graduates/delete_students.html')
+
+@login_required(login_url='accounts:login')
+@allowed_users(allowed_roles=['registrar_staff'])
+def search_graduation(request):
+    if request.GET:
+        search_term = request.GET['date']
+        num = Certificate.objects.filter( uploaded_date = search_term).count()
+        
+
+    context = {
+        'search_term': search_term,
+        'num': num
+
+    }
+    return render(request, 'graduates/delete_graduates.html', context)
+
+@login_required(login_url='accounts:login')
+@allowed_users(allowed_roles=['registrar_staff'])
+def delete_graduates(request, date):
+
+    if request.method == 'POST':
+        num = Certificate.objects.filter(uploaded_date=date)
+        if num:
+            num.delete()
+            messages.success(request, "successfully deleted")
+            return redirect('/graduates/graduates')
+        else:
+            messages.warning(
+                request, 'No records found with this selected dateeeee')
+            return redirect('/graduates/student')
+
+    return render(request, 'graduates/delete_students.html')
+
 
 
 def certificate(request):
@@ -225,7 +262,7 @@ def acadamic_history(request):
         dataset = Dataset()
         new_student = request.FILES['myfile']
         imported_data = dataset.load(new_student.read(), format='xlsx')
-        now = timezone.now()
+        now = datetime.date.today()
         uploaded_by = request.user.id
 
         result = student_resource.import_data(
@@ -257,6 +294,7 @@ def graduation_result(request):
     if request.method == 'POST':
         student_resource = CertificateResource()
         dataset = Dataset()
+        now = timezone.now()
         new_student = request.FILES['myfile']
         imported_data = dataset.load(new_student.read(), format='xlsx')
 
@@ -264,6 +302,7 @@ def graduation_result(request):
             dataset,
             dry_run=True,
             raise_errors=True,
+            uploaded_date=now,
 
         )
         if result.has_errors():
@@ -273,10 +312,11 @@ def graduation_result(request):
             student_resource.import_data(
                 dataset,
                 dry_run=False,
+                uploaded_date=now,
 
             )
             messages.success(request, 'You have uploaded successfully!')
-            return redirect('/graduates/')
+            return redirect('/graduates/graduation_result')
     return render(request, 'graduates/graduation_result.html')
 
 
