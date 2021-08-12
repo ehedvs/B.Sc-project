@@ -36,7 +36,7 @@ def index(request):
     if Request.objects.filter(sender=admin)[0:1]:
         sub = Request.objects.filter(sender=admin)[0:1].values('status')[0]
         status= sub['status']
-
+    status = "approved"
     students = Student.objects.all().count()
     acadamic_historys = AcademicHistory.objects.all().count()
     profile = Profile.objects.filter(image='default.png').count()
