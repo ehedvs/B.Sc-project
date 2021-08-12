@@ -109,7 +109,7 @@ class Certificate(models.Model):
 
 
     def __str__(self):
-        return f'{self.student } Certificate'
+        return f'{self.student } Graduation Result'
 
 
 

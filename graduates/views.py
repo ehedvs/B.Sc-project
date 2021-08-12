@@ -87,6 +87,11 @@ def student_status(request):
       'deletion_number': deletion_number}
     return render(request, 'graduates/student_status.html', context)
 
+@login_required(login_url='accounts:login')
+@allowed_users(allowed_roles=['registrar_staff'])
+def student_graduation_result(request):
+    return render(request, 'graduates/student.graduation_result.html')
+
 
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])

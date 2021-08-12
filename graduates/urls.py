@@ -9,6 +9,7 @@ urlpatterns = [
     path('certificate/', views.certificate, name='e-hedvs' ),
     path('academic/', views.acadamic_history, name='academic'),
     path('graduation/', views.graduation_result, name='graduation'),
+    path('graduation_result', views.student_graduation_result, name='graduation_result'),
     path('status/', views.student_status, name='status'),
     path('status_detail/<path:id>/', views.status_detail, name='status_detail'),
     path('certificate_generation/',views.certificate_generation, name='certificate_generation' ),

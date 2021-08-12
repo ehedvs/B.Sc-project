@@ -43,41 +43,7 @@
                 Dashboard
               </p>
             </a>
-          </li>
-         <!---
-          <li class="nav-item ">
-            <a href="#" class="nav-link ">
-              <i class="nav-icon fas fa-file-excel "></i>
-              <p >
-                 Excel Upload
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'graduates:upload' %}" class="nav-link">
-                  <i class="fas fa-user-alt nav-icon"></i>
-                  <p class="text-lightblue">Student Registration </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'graduates:academic' %}" class="nav-link">
-                  <i class="fas fa-pen-alt nav-icon"></i>
-                  <p class="text-lightblue">Academical Status</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'graduates:graduation' %}" class="nav-link">
-                  <i class="fas fa-pen-alt nav-icon"></i>
-                  <p class="text-lightblue">Graduation Result</p>
-                </a>
-              </li>
-            </ul>
-        </li>
-       
-         
-          -->
-         
+          </li> 
           <li class="nav-item">
             <a href="{% url 'graduates:student' %}" class="nav-link ">
               <i class="nav-icon fa fa-user-graduate "></i>
@@ -105,10 +71,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link ">
-              <i class="nav-icon fa fa-question-circle"></i>
+            <a href="{% url 'graduates:graduation_result' %}" class="nav-link ">
+              <i class="nav-icon fa fa-file-invoice"></i>
               <p>
-                Request
+                Graduation Result
               </p>
             </a>
           </li>
