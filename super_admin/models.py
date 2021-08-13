@@ -7,13 +7,16 @@ User = settings.AUTH_USER_MODEL
 class University(models.Model):
     name = models.CharField(max_length=300)
     email = models.EmailField(max_length=255, unique=True)
-    phone_no1 = PhoneNumberField()
-    phone_no2 = PhoneNumberField(blank=True)
-    fax_no = PhoneNumberField()
+    phone_no1 = PhoneNumberField(unique=True)
+    phone_no2 = PhoneNumberField(blank=True, null=True, unique=True)
+    fax_no = PhoneNumberField(unique=True)
     website = models.URLField(max_length=200)
-    pob = models.PositiveSmallIntegerField()
-    city = models.CharField(max_length=200, blank=True)
+    pob = models.PositiveSmallIntegerField(unique=True)
+    city = models.CharField(max_length=200, blank=True,)
     logo = models.ImageField(upload_to="logos/")
+
+    class Meta:
+        ordering = ['-id']
 
     def __str__(self):
         return self.name
