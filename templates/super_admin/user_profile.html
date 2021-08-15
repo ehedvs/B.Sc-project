@@ -1,6 +1,5 @@
-{% extends 'super_admin/main.html' %}
+       {% extends 'super_admin/main.html' %}
         {% load static %}
-
         {% block subtitle %}User Profile{% endblock %}
         {% block first %}home {% endblock %}
         {% block second %}user profile{% endblock %}
@@ -36,7 +35,7 @@
                               <a href="#" class="btn btn-sm bg-teal">
                                 <i class="fas fa-comments"></i>
                               </a>
-                              <a href="{% url 'super_admin:delete_user' list.user.id %}" class="btn btn-sm bg-danger">
+                              <a href="#" onclick="deletingUser({{list.user.id}})" class="btn btn-sm bg-danger">
                                 <i class="fas fa-trash-alt"></i>
                               </a>
                               <a href="#" class="btn btn-sm btn-primary">
@@ -53,3 +52,32 @@
         
       
        {% endblock %}
+
+       {% block javascript %}
+
+       <script>
+         function deletingUser(id){
+          Swal.fire({
+            "title":"Are you sure",
+            "text":"You want to delete this User ",
+            "icon":"question",
+            "showCancelButton":true,
+            "cancelButtonText":"No, Cancel",
+            "confirmButtonText":"Yes, Delete",
+            "reverseButtons":true,
+            "confirmButtonColor":"#dc3545",
+            "cancelButtonColor":"#17a2b8",
+            "width":330,
+            "height":70,
+
+
+          })
+          .then(function(result) {
+            if (result.isConfirmed){
+              window.location.href="/super_admin/delete_user/"+id+"/"
+            }
+          })
+         }
+       </script> 
+       
+       {% endblock %}      
