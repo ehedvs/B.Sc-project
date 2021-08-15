@@ -11,7 +11,7 @@ class User(AbstractUser):
 
 class RegistrarAdmin(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
-    university= models.ForeignKey(University, on_delete=models.CASCADE, null=True)
+    university= models.OneToOneField(University, on_delete=models.CASCADE, null=True)
     
 
     

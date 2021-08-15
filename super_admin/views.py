@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import UniversityForm
 from accounts.decorators import super_admin
 from registrar_admin.models import Request
+from django.db import IntegrityError
 
 from background_task import background
 from background_task.models import CompletedTask
@@ -53,13 +54,22 @@ def registration(request):
 def createAccount(request):
     form = AdminSignUpForm()
     if request.method=='POST':
-        form = AdminSignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/super_admin/user_profile')
-
-        else:
-            messages.warning(request,'the two password doesnot match')
+        try:
+            form = AdminSignUpForm(request.POST)
+            if form.is_valid():
+                form.save()
+                print(request.POST['university'])
+                return redirect('/super_admin/user_profile')
+            else:
+                 messages.warning(request,'the two password doesnot match')
+           
+ 
+        except IntegrityError as e:
+            if 'UNIQUE constraint' in str(e.args):
+                #return redirect('/accounts/exist/')
+                messages.warning(request,'University you have selected has got ADIMN already')
+               
+        
     context = {'form': form}
     return render(request, 'super_admin/account.html', context)
 

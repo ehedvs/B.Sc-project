@@ -4,13 +4,14 @@ from django.conf import settings
 User = settings.AUTH_USER_MODEL
 
 
+#university db
 class University(models.Model):
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=300, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     phone_no1 = PhoneNumberField(unique=True)
     phone_no2 = PhoneNumberField(blank=True, null=True, unique=True)
     fax_no = PhoneNumberField(unique=True)
-    website = models.URLField(max_length=200)
+    website = models.URLField(max_length=200, unique=True)
     pob = models.PositiveSmallIntegerField(unique=True)
     city = models.CharField(max_length=200, blank=True,)
     logo = models.ImageField(upload_to="logos/")

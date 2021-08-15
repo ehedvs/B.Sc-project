@@ -6,7 +6,23 @@
         {% block second %}account{% endblock %}
  
        {% block content%}
-  
+       <div>
+        {% if messages %}
+        {% for m in messages %}
+        <script>
+          Swal.fire({
+            "title":"Warning!",
+            "text":"{{m}}",
+            "icon":"warning",
+            "width":400,
+            "height":100,
+      
+          })
+        </script>
+        {% endfor %}
+        {% endif %}
+      
+      </div>
 
         <div class="row ml-5">
             <div class="col-lg-9">
