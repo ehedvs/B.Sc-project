@@ -111,7 +111,7 @@
                         <a href="{% url 'super_admin:update_unv' list.id %}" class="btn text-secondary px-0 "><i class="fas fa-pencil-alt  "></i></a>
                       </td>
                      <td>
-                       <a href="{% url 'super_admin:delete_unv' list.id %}" class="btn text-danger px-0 "><i class="fas fa-trash-alt "></i></a>
+                       <a href="#" onclick="deletingUniversty({{list.id}})" class="btn text-danger px-0 "><i class="fas fa-trash-alt "></i></a>
                      </td>
                     </tr>
                     {% endfor %}
@@ -124,5 +124,35 @@
             <!-- /.card -->
           </div>
         
+        
+        {% endblock %}      
+
+
+        {% block javascript %}
+
+        <script>
+          function deletingUniversty(id){
+           Swal.fire({
+             "title":"Are you sure",
+             "text":"You want to delete this University ",
+             "icon":"question",
+             "showCancelButton":true,
+             "cancelButtonText":"No, Cancel",
+             "confirmButtonText":"Yes, Delete",
+             "reverseButtons":true,
+             "confirmButtonColor":"#dc3545",
+             "cancelButtonColor":"#17a2b8",
+             "width":330,
+             "height":70,
+
+
+           })
+           .then(function(result) {
+             if (result.isConfirmed){
+               window.location.href="/super_admin/delete_unv/"+id+"/"
+             }
+           })
+          }
+        </script> 
         
         {% endblock %}      

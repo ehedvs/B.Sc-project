@@ -102,12 +102,9 @@ def updateUnv(request, pk):
 @super_admin
 def deleteUnv(request, pk ):
     univ = University.objects.get(id=pk)
-    if request.method == 'POST':
-        univ.delete()
-        return redirect('/super_admin/')
-    context = {'univ':univ}
-    return render(request, 'super_admin/delete.html', context)
-
+    univ.delete()
+    messages.warning(request, "You have successfuly deleted")
+    return redirect("/super_admin/")
 
 #delet Registrar_admin
 @login_required(login_url='accounts:login')
