@@ -32,7 +32,7 @@ class StudentResource(resources.ModelResource):
         model=Student
         skip_unchanged = False
         report_skipped = True
-        fields = ( 'id', 'first_name','middle_name', 'last_name', 'gender', 'age', 'registration_year')
+        fields = ( 'id', 'full_name', 'gender', 'age', 'registration_year')
    
 
 class AcademicalResource(resources.ModelResource):

@@ -16,15 +16,21 @@ from django.contrib.auth import get_user_model
 @login_required(login_url='accounts:login')
 @registrar_admin
 def dashboard(request):
-    faculties = Faculty.objects.all().order_by('-id')[0:3]
-    programs = Program.objects.all().order_by('-id')[0:3]
+    logged_user = request.user
+    logged_admin_univ=RegistrarAdmin.objects.get(user=logged_user).university
+    print(logged_admin_univ)
+    faculties = Faculty.objects.filter( university=logged_admin_univ).order_by('-id')[0:3]
+    programs = Program.objects.filter(faculty__university = logged_admin_univ).order_by('-id')[0:3]
         
     return render(request, 'registrar_admin/dashboard.html',{'faculties':faculties, 'programs':programs})
-   
+
 @login_required(login_url='accounts:login')
 @registrar_admin
 def faculty(request):
-    faculties = Faculty.objects.all().order_by('-id')[0:5]
+    logged_user = request.user
+    logged_admin_univ=RegistrarAdmin.objects.get(user=logged_user).university
+
+    faculties = Faculty.objects.filter(university = logged_admin_univ).order_by('-id')[0:5]
     form = FacultyForms()
     if request.method == 'POST':
         form = FacultyForms(request.POST)
@@ -38,14 +44,17 @@ def faculty(request):
 @registrar_admin
 def program(request):
    programs = Program.objects.all().order_by('-id')[0:5]
-   program = ProgramForms()
+   logged_univ = RegistrarAdmin.objects.get(user=request.user).university
+   program = ProgramForms(logged_univ)
    if request.method == 'POST':
-        form = ProgramForms(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/registrar_admin')
-
+       program = ProgramForms(logged_univ, request.POST)
+       if program.is_valid:
+           program.save()
+           return redirect('/registrar_admin')
+       print(request.POST)
+   
    return render(request, 'registrar_admin/program.html', { 'program':program, 'programs':programs})
+
 
 
 #register registrar_staff

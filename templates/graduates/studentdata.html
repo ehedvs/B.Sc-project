@@ -75,6 +75,7 @@
               <th >Student</th>
               <th>Registration Date</th>
               <th class=" text-center">Academical Status</th>
+              <th>School and Department</th>
              
             </tr>
           </thead>
@@ -92,6 +93,9 @@
               <td>{{graduate.registration_year}}</td>
               <td class="text-center ">
                 <a href=" {% url 'graduates:status_detail' graduate.id %}" ><i class="fas fa-ellipsis-v text-info "></i></a>
+              </td>
+              <td class="text-center">
+                <a href="{% url 'graduates:dept' graduate.id %}"><i class="fa fa-pen-alt"></i></a>
               </td>
             </tr>
             {% endfor %}

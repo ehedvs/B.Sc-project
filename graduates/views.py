@@ -6,7 +6,7 @@ from .resources import StudentResource, AcademicalResource, CertificateResource
 from django.contrib import messages
 from tablib import Dataset
 from django.utils import timezone
-from .forms import AcademicHistoryForm, ProfileUpdateForm, ExapleForm
+from .forms import AcademicHistoryForm, ProfileUpdateForm, ExapleForm, update_dept,StudentForm
 from django.utils import timezone
 from .filter import AcademicFilter, StudentFilter
 from datetime import date
@@ -18,6 +18,7 @@ from rest_framework.response import Response
 from .serializers import StudentSerializer, ProfileSerializer, CertificateSerializer
 from super_admin import signals
 from registrar_admin.models import Request
+from django.forms.models import modelformset_factory
 
 # -------------------------------
 from django.http import HttpResponse
@@ -51,6 +52,44 @@ def index(request):
         'status':status
     }
     return render(request, 'graduates/home.html', context)
+
+def student_update(request):
+    user = request.user
+    student = Student.objects.filter(created_by=user)
+    StudentForm = update_dept(user)
+    StudentFormset = modelformset_factory(Student, form=StudentForm, extra=0)
+    formset = StudentFormset(request.POST or None, queryset=Student.objects.filter(
+        created_by=user, school__isnull=True))
+    
+    if formset.is_valid():
+        instances = formset.save(commit=False)
+        for instance in instances:
+            instance.save()
+
+    context = {
+        'formset': formset,
+        'no_formset':len(formset.forms)
+    }
+    return render(request, 'graduates/school&dept_update.html', context)
+
+def school_department(request, id):
+    student = Student.objects.get(id=id)
+    user = request.user
+    if request.method == 'POST':
+        form = StudentForm(user,request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('/graduates/student/')
+
+    else:
+        form = StudentForm(user,instance=student)
+    context = {
+        'form': form
+    }
+    return render(request, 'graduates/school_dept.html', context)
+
+
+
 
 def request_approved_checker(request):
     status = "pending"
