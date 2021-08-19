@@ -131,6 +131,8 @@
             <th>Batch</th>
             <th>Semester</th>
             <th>Status</th>
+            <th>GPA</th>
+            <th>CGPA</th>
           </tr>
         </thead>
         <tbody>
@@ -140,11 +142,12 @@
             <td>{{student.student}}</td>
             <td>{{student.get_batch_display}}</td>
            <td>{{student.get_semester_display}}</td>
-           {% if student.academic_status == "promoted" %}
+           <td>{{student.GPA}}</td>
+           <td>{{student.CGPA}}</td>
+           {% if student.academic_status == "Promoted" %}
            <td class="text-success">Promoted</td>
-           {% endif %}
-           {% if student.academic_status == "failed" %}
-           <td class="text-danger">Failed</td>
+           {% else %}
+           <td class="text-danger">{{student.academic_status}}</td>
            {% endif %}
           </tr>
           {% endfor %}

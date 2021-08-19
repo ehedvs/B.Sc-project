@@ -17,7 +17,7 @@ def create_profile(sender, instance, created, **kwargs):
 def level_of_completion(sender, instance, created, **kwargs):
     dept = Student.objects.get(id=instance.student.id).department
     loc = Student.objects.get(id=instance.student.id).level_of_completion
-    status = AcademicHistory.objects.filter(student=instance.student.id, academic_status = "promoted").count()
+    status = AcademicHistory.objects.filter(student=instance.student.id, academic_status = "Promoted").count()
     if dept:
         year_required = Program.objects.get(name=dept).year_required
         status = status/(2*year_required)

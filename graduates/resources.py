@@ -3,7 +3,7 @@ from django.db.models.query import FlatValuesListIterable
 from import_export import fields, resources
 from import_export.widgets import ForeignKeyWidget
 from super_admin.models import University
-from.models import Certificate, Student, AcademicHistory
+from.models import  Student, AcademicHistory
 from django.contrib.auth import get_user_model
 
 class StudentResource(resources.ModelResource):
@@ -54,28 +54,11 @@ class AcademicalResource(resources.ModelResource):
         report_skipped = False
         import_id_fields=('student','batch','semester')
         
-        fields = ('student', 'batch','semester', 'academic_status')
+        fields = ('student', 'batch','semester', 'GPA','CGPA')
     
     def before_import_row(self, row, row_number, **kwargs):
         row['uploaded_by'] = kwargs['uploaded_by']
         row['uploaded_date'] = kwargs['uploaded_date']
 
 
-class CertificateResource(resources.ModelResource):
-    student = fields.Field(
-        column_name='student',
-        attribute ='student',
-        
-        widget = ForeignKeyWidget(Student, 'id')
-    )
-    class Meta:
-        model=Certificate
-        skip_unchanged = True
-        report_skipped = False
-        import_id_fields=('student',)
-        fields = ('student', 'school','dept', 'GPA','CGPA')
 
-        def before_import_row(self, row, row_number, **kwargs):
-            row['uploaded_date'] = kwargs['uploaded_date']
-            
-        

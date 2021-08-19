@@ -1,8 +1,8 @@
 import datetime
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Certificate, Student, AcademicHistory, Profile
-from .resources import StudentResource, AcademicalResource, CertificateResource
+from .models import  Student, AcademicHistory, Profile
+from .resources import StudentResource, AcademicalResource
 from django.contrib import messages
 from tablib import Dataset
 from django.utils import timezone
@@ -15,7 +15,7 @@ from accounts.decorators import registrar_staff, allowed_users
 from accounts.models import RegistrarStaff, RegistrarAdmin
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import StudentSerializer, ProfileSerializer, CertificateSerializer
+from .serializers import StudentSerializer, ProfileSerializer
 from super_admin import signals
 from registrar_admin.models import Request
 from django.forms.models import modelformset_factory
@@ -127,14 +127,14 @@ def student_status(request):
       'deletion_number': deletion_number}
     return render(request, 'graduates/student_status.html', context)
 
-@login_required(login_url='accounts:login')
-@allowed_users(allowed_roles=['registrar_staff'])
-def student_graduation_result(request):
-    graduates = Certificate.objects.all()
-    context ={
-        'graduates':graduates
-    }
-    return render(request, 'graduates/student.graduation_result.html', context)
+# @login_required(login_url='accounts:login')
+# @allowed_users(allowed_roles=['registrar_staff'])
+# def student_graduation_result(request):
+#     graduates = Certificate.objects.all()
+#     context ={
+#         'graduates':graduates
+#     }
+#     return render(request, 'graduates/student.graduation_result.html', context)
 
 
 @login_required(login_url='accounts:login')
@@ -194,37 +194,37 @@ def delete_records(request, date):
 
     return render(request, 'graduates/delete_students.html')
 
-@login_required(login_url='accounts:login')
-@allowed_users(allowed_roles=['registrar_staff'])
-def search_graduation(request):
-    if request.GET:
-        search_term = request.GET['date']
-        num = Certificate.objects.filter( uploaded_date = search_term).count()
+# @login_required(login_url='accounts:login')
+# @allowed_users(allowed_roles=['registrar_staff'])
+# def search_graduation(request):
+#     if request.GET:
+#         search_term = request.GET['date']
+#         num = Certificate.objects.filter( uploaded_date = search_term).count()
         
 
-    context = {
-        'search_term': search_term,
-        'num': num
+#     context = {
+#         'search_term': search_term,
+#         'num': num
 
-    }
-    return render(request, 'graduates/delete_graduates.html', context)
+#     }
+#     return render(request, 'graduates/delete_graduates.html', context)
 
-@login_required(login_url='accounts:login')
-@allowed_users(allowed_roles=['registrar_staff'])
-def delete_graduates(request, date):
+# @login_required(login_url='accounts:login')
+# @allowed_users(allowed_roles=['registrar_staff'])
+# def delete_graduates(request, date):
 
-    if request.method == 'POST':
-        num = Certificate.objects.filter(uploaded_date=date)
-        if num:
-            num.delete()
-            messages.success(request, "successfully deleted")
-            return redirect('/graduates/graduates')
-        else:
-            messages.warning(
-                request, 'No records found with this selected dateeeee')
-            return redirect('/graduates/student')
+#     if request.method == 'POST':
+#         num = Certificate.objects.filter(uploaded_date=date)
+#         if num:
+#             num.delete()
+#             messages.success(request, "successfully deleted")
+#             return redirect('/graduates/graduates')
+#         else:
+#             messages.warning(
+#                 request, 'No records found with this selected dateeeee')
+#             return redirect('/graduates/student')
 
-    return render(request, 'graduates/delete_students.html')
+#     return render(request, 'graduates/delete_students.html')
 
 
 
@@ -328,36 +328,36 @@ def acadamic_history(request):
     return render(request, 'graduates/acadamic_history.html')
 
 
-@login_required(login_url='accounts:login')
-@allowed_users(allowed_roles=['registrar_staff'])
-def graduation_result(request):
-    if request.method == 'POST':
-        student_resource = CertificateResource()
-        dataset = Dataset()
-        now = timezone.now()
-        new_student = request.FILES['myfile']
-        imported_data = dataset.load(new_student.read(), format='xlsx')
+# @login_required(login_url='accounts:login')
+# @allowed_users(allowed_roles=['registrar_staff'])
+# def graduation_result(request):
+#     if request.method == 'POST':
+#         student_resource = CertificateResource()
+#         dataset = Dataset()
+#         now = timezone.now()
+#         new_student = request.FILES['myfile']
+#         imported_data = dataset.load(new_student.read(), format='xlsx')
 
-        result = student_resource.import_data(
-            dataset,
-            dry_run=True,
-            raise_errors=True,
-            uploaded_date=now,
+#         result = student_resource.import_data(
+#             dataset,
+#             dry_run=True,
+#             raise_errors=True,
+#             uploaded_date=now,
 
-        )
-        if result.has_errors():
-            messages.error(request, 'Uh oh! Something went wrong....')
+#         )
+#         if result.has_errors():
+#             messages.error(request, 'Uh oh! Something went wrong....')
 
-        else:
-            student_resource.import_data(
-                dataset,
-                dry_run=False,
-                uploaded_date=now,
+#         else:
+#             student_resource.import_data(
+#                 dataset,
+#                 dry_run=False,
+#                 uploaded_date=now,
 
-            )
-            messages.success(request, 'You have uploaded successfully!')
-            return redirect('/graduates/graduation_result')
-    return render(request, 'graduates/graduation_result.html')
+#             )
+#             messages.success(request, 'You have uploaded successfully!')
+#             return redirect('/graduates/graduation_result')
+#     return render(request, 'graduates/graduation_result.html')
 
 
 @login_required(login_url='accounts:login')
@@ -476,16 +476,16 @@ def get_profile(request, id):
 
 
 # certificates serializer
-@api_view(['GET'])
-def get_certificates(request):
-    students = Certificate.objects.all()
-    pro_serializer = CertificateSerializer(students, many=True)
-    return Response(pro_serializer.data)
+# @api_view(['GET'])
+# def get_certificates(request):
+#     students = Certificate.objects.all()
+#     pro_serializer = CertificateSerializer(students, many=True)
+#     return Response(pro_serializer.data)
 
-# certificate serializer
-@api_view(['GET'])
-def get_certificate(request, id):
-    student = Certificate.objects.get(student=id)
-    serializer = CertificateSerializer(student, many=False)
-    return Response(serializer.data)
+# # certificate serializer
+# @api_view(['GET'])
+# def get_certificate(request, id):
+#     student = Certificate.objects.get(student=id)
+#     serializer = CertificateSerializer(student, many=False)
+#     return Response(serializer.data)
 
