@@ -30,6 +30,7 @@ class Student(models.Model):
     created_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
     school = models.ForeignKey(Faculty, on_delete=models.SET_NULL, null=True, blank=True)
     department=models.ForeignKey(Program, on_delete=models.SET_NULL, null=True, blank=True)
+    level_of_completion = models.FloatField(default=0.0, blank=True, null=True)
 
     def __str__(self):
         return self.full_name
@@ -63,6 +64,7 @@ class AcademicHistory(models.Model):
      academic_status= models.CharField(max_length=20, choices=status)
      uploaded_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
      uploaded_date = models.DateTimeField(auto_now=True)
+     
 
      
      def __str__(self):

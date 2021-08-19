@@ -11,8 +11,6 @@
       <div class="card-header">
         <h3 class="card-title"><span class="text-info">{{name}}</span>'s Academical status</h3>
       </div>
-     
-     
       <div class="card-body p-0">
         <table class="table table-striped ">
           <thead>
@@ -27,11 +25,20 @@
             <tr>
               <td>{{student.get_batch_display}}</td>
              <td>{{student.get_semester_display}}</td>
-             <td>{{student.academic_status}}</td>
+             <td>
+               {% if student.academic_status == "failed" %}
+               <span class="text-danger">{{student.academic_status}}</span>
+               {% else %}
+               {{student.academic_status}}
+               {% endif %}
+              </td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
+      </div>
+      <div class="card-footer bg-white">
+        <img class="image float-right" src="{{name.profile.qr_code.url}}" alt="profile" height="120px"  >
       </div>
      
     </div>

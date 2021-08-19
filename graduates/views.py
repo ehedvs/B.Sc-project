@@ -19,6 +19,7 @@ from .serializers import StudentSerializer, ProfileSerializer, CertificateSerial
 from super_admin import signals
 from registrar_admin.models import Request
 from django.forms.models import modelformset_factory
+from registrar_admin.models import Faculty, Program
 
 # -------------------------------
 from django.http import HttpResponse
@@ -59,7 +60,7 @@ def student_update(request):
     StudentForm = update_dept(user)
     StudentFormset = modelformset_factory(Student, form=StudentForm, extra=0)
     formset = StudentFormset(request.POST or None, queryset=Student.objects.filter(
-        created_by=user, school__isnull=True))
+        created_by=user, school__isnull=True, department__isnull=True))
     
     if formset.is_valid():
         instances = formset.save(commit=False)
@@ -115,7 +116,7 @@ def graduates(request):
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def student_status(request):
-    students = AcademicHistory.objects.all().order_by('-uploaded_date')
+    students = AcademicHistory.objects.filter(uploaded_by=request.user).order_by('-uploaded_date')
     myfilter = AcademicFilter(request.GET, queryset=students)
     students = myfilter.qs
     deletion_number = students.count()
@@ -385,7 +386,7 @@ def profile(request, pk):
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def studentdata(request):
-    graduates = Student.objects.all()
+    graduates = Student.objects.filter(created_by = request.user)
     context = {'graduates': graduates, }
     return render(request, 'graduates/studentdata.html', context)
 
@@ -393,7 +394,8 @@ def studentdata(request):
 
 
 def certificate_generation(request):
-    certificates = Student.objects.all()
+    certificates = Student.objects.filter(created_by=request.user, school__isnull=False, department__isnull=False)
+    
     context = {
         'certificates': certificates,
 
@@ -406,6 +408,7 @@ def certificate_generation(request):
 def single_certificate(request, *args, **kwargs):
     id = kwargs.get('id')
     student = get_object_or_404(Student, id=id)
+  
 
     template_path = 'graduates/single_certificate.html'
     context = {'student': student}

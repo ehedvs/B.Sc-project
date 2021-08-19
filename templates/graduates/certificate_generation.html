@@ -7,7 +7,7 @@
 {% block content%}
 <!-- /.card -->
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title mb-1"> <i class="fa fa-print text-orange mr-1"></i>
@@ -23,11 +23,12 @@
                 <thead>
                 <tr>
                   <th>Image</th>
-                  <th>ID</th>
                   <th>Student</th>
+                  <th>ID</th>
                   <th>Batch</th>
-                  <th>Certificate</th>
-                  <th>More</th>
+                  <th class="text-info text-center">Academic status</th>
+                  <th>Generate Certificate</th>
+        
                 </tr>
                 </thead>
                 <tbody>
@@ -43,16 +44,22 @@
                       
                    {{certificate.registration_year.year}}
                   </td>
+                  <td class="text-center">
+                    {{certificate.level_of_completion|floatformat:2 }}
+                    <span class="text-info"><sup>%</sup></span>
+                  
+                </td>
                   <td>
-                    <a href="{% url 'graduates:single_certificate' certificate.id %}" class="text-muted">
-                      <i class="fas fa-file-download ml-4 text-orange mr-5"></i>
+                    {% if certificate.level_of_completion >= 100 %}
+                    <a  href="{% url 'graduates:single_certificate' certificate.id %}" class="text-muted text-center " disable>
+                      <i class="fas fa-file-download ml-4 text-orange btn-sm mr-5"></i>
                        
                     </a>
+                    {% else %}
+                    <button class="btn btn-sm" disabled><i class="fas fa-file-download ml-4 text-orange mr-5"></i></button>
+                    {% endif %}
                   </td>
-                  <td>
-                      <a href=""><i class="fa fa-angle-double-right sm"></i></a>
-                    
-                  </td>
+                 
                 </tr>
                 {% endfor %}
                 </tbody>
@@ -60,7 +67,7 @@
             </div>
           </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">
