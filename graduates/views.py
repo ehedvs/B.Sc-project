@@ -394,7 +394,8 @@ def studentdata(request):
 
 
 def certificate_generation(request):
-    certificates = Student.objects.filter(created_by=request.user, school__isnull=False, department__isnull=False)
+    certificates = Student.objects.filter(created_by=request.user)
+
     
     context = {
         'certificates': certificates,

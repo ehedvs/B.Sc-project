@@ -7,7 +7,7 @@
 {% block content%}
 <!-- /.card -->
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-header border-0">
               <h3 class="card-title mb-1"> <i class="fa fa-print text-orange mr-1"></i>
@@ -26,8 +26,9 @@
                   <th>Student</th>
                   <th>ID</th>
                   <th>Batch</th>
-                  <th class="text-info text-center">Academic status</th>
+                  <th class=" text-center text-info">Competion Level</th>
                   <th>Generate Certificate</th>
+                  <th>More</th>
         
                 </tr>
                 </thead>
@@ -45,8 +46,12 @@
                    {{certificate.registration_year.year}}
                   </td>
                   <td class="text-center">
+                    {% if certificate.level_of_completion == 0.0 %}
+                    <p class="text-info ">unpredictable</p>
+                    {% else %}
                     {{certificate.level_of_completion|floatformat:2 }}
                     <span class="text-info"><sup>%</sup></span>
+                    {% endif %}
                   
                 </td>
                   <td>
@@ -59,6 +64,9 @@
                     <button class="btn btn-sm" disabled><i class="fas fa-file-download ml-4 text-orange mr-5"></i></button>
                     {% endif %}
                   </td>
+                  <td>
+                    <a href="{% url 'graduates:status_detail' certificate.id %}"><i class="fa fa-angle-double-right"></i></a>
+                  </td>
                  
                 </tr>
                 {% endfor %}
@@ -67,6 +75,7 @@
             </div>
           </div>
     </div>
+   <!--
     <div class="col-md-3">
         <div class="card">
           <div class="card-header">
@@ -75,14 +84,17 @@
               <span class="font-italic">Generate multiple certificate</span>
             </h3>
           </div>
-          <!-- /.card-header -->
+         
           <div class="card-body">
             <p>YET TO COME</p>
           </div>
-          <!-- /.card-body -->
+          
         </div>
-        <!-- /.card -->
+      
       </div>
+
+-->
+
 </div>
 
  
