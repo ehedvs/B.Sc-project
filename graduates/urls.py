@@ -25,8 +25,8 @@ urlpatterns = [
     path('multi/', views.multiple_certificate, name='multi'),
     path('image_api/', views.get_profiles),
     path('image_api/<path:id>/', views.get_profile),
-    #path('student_api/', views.get_certificates),
-    #path('student_api/<path:id>/', views.get_certificate),
+    path('student_api/', views.get_certificates),
+    path('student_api/<path:id>/', views.get_certificate),
     
 
 

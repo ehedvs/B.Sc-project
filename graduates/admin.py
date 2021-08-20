@@ -6,3 +6,4 @@ admin.site.register(AcademicHistory)
 admin.site.register(Profile)
 
 
+

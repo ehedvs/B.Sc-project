@@ -22,7 +22,6 @@
               
               <form action="" method="POST">
                   {% csrf_token %}
-                  {{form.university|as_crispy_field}}
                   {{form.name|as_crispy_field}}
                   {{form.total_programs|as_crispy_field}}
               
@@ -42,7 +41,6 @@
         <div class="card card-dark">
             <div class="card-header">
               <h3 class="card-title">Recent register programs</h3>
-    
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>

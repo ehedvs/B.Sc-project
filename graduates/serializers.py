@@ -3,29 +3,26 @@ from rest_framework.serializers import ModelSerializer, Serializer
 from rest_framework import serializers
 from .models import AcademicHistory, Student, Profile
 
-# class CertificateSerializer(serializers.ModelSerializer):
-#     first_name = serializers.CharField(source = 'student.first_name')
-#     middle_name = serializers.CharField(source = 'student.middle_name')
-#     last_name = serializers.CharField(source = 'student.last_name')
-#     institution  = serializers.CharField(source = 'student.institution')
-#     class Meta:
-#         model = Certificate
-#         fields = ['student', 'first_name', 'middle_name','last_name', 'institution', 'school', 'dept','GPA','CGPA']
+class CertificateSerializer(serializers.ModelSerializer):
+    full_name = serializers.CharField(source = 'student.full_name')
+    institution  = serializers.CharField(source = 'student.institution')
+    dept = serializers.CharField(source = 'student.department')
+    school = serializers.CharField(source = 'student.school')
+    level_of_completion=serializers.CharField(source = 'student.level_of_completion')
+    date = serializers.CharField(source='uploaded_date')
+    class Meta:
+        model = AcademicHistory
+        fields = ['student', 'full_name', 'institution', 'school', 'dept','GPA','CGPA' , 'date' , 'level_of_completion']
+
+
 
 class StudentSerializer(ModelSerializer):
     institution = serializers.ReadOnlyField(source ='institution.name')
-    #profiles = serializers.SerializerMethodField()
     class Meta:
         model=Student
         fields = ('id','first_name','middle_name','last_name','institution')
         
-        
     
-    # def get_profiles(self, obj):
-    #     data = ProfileSerializer(obj.profile.all(), many=True).data  
-    #     return data  
-
-
 class ProfileSerializer( serializers.ModelSerializer):
 
     class Meta:

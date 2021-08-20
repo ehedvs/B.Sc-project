@@ -19,8 +19,8 @@ def dashboard(request):
     logged_user = request.user
     logged_admin_univ=RegistrarAdmin.objects.get(user=logged_user).university
     print(logged_admin_univ)
-    faculties = Faculty.objects.filter( university=logged_admin_univ).order_by('-id')[0:3]
-    programs = Program.objects.filter(faculty__university = logged_admin_univ).order_by('-id')[0:3]
+    faculties = Faculty.objects.filter( university=logged_admin_univ).order_by('-id')[0:5]
+    programs = Program.objects.filter(faculty__university = logged_admin_univ).order_by('-id')[0:5]
         
     return render(request, 'registrar_admin/dashboard.html',{'faculties':faculties, 'programs':programs})
 
@@ -29,11 +29,12 @@ def dashboard(request):
 def faculty(request):
     logged_user = request.user
     logged_admin_univ=RegistrarAdmin.objects.get(user=logged_user).university
-
     faculties = Faculty.objects.filter(university = logged_admin_univ).order_by('-id')[0:5]
+    loged=request.user.id
+    univ = RegistrarAdmin.objects.get(pk=loged).university
     form = FacultyForms()
     if request.method == 'POST':
-        form = FacultyForms(request.POST)
+        form = FacultyForms(request.POST, loged_user=univ)
         if form.is_valid():
             form.save()
             return redirect('/registrar_admin')
@@ -51,11 +52,15 @@ def program(request):
        if program.is_valid:
            program.save()
            return redirect('/registrar_admin')
-       print(request.POST)
+      
    
    return render(request, 'registrar_admin/program.html', { 'program':program, 'programs':programs})
 
 
+def delete_faculty(request, id):
+    school = Faculty.objects.get(id=id)
+    school.delete()
+    return redirect('/registrar_admin')
 
 #register registrar_staff
 @login_required(login_url='accounts:login')
@@ -70,9 +75,6 @@ def createAccount(request):
     if request.method=='POST':
         form = StaffSignUpForm(request.POST, loged_user=univ)
         if form.is_valid():
-             
-            #print(dir(form))
-            print(univ)
             form.save()
             return redirect('/registrar_admin/user_profile')
 

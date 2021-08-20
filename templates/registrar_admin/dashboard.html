@@ -11,22 +11,11 @@
 <div class="row">
     <div class="col-6">
         <div class="card card-info shadow-sm">
-            <div class="card-header m-0  ">
-                <div class="col-6 ">
-                    <div class="form-inline ">
-                        <div class="input-group" data-widget="#">
-                          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                          <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                              <i class="fas fa-search fa-fw"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                </div>
+            <div class="card-header">
+              <h3 class="card-title">Recent registered Faculties</h3>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool" style="margin-top: -75px;" data-card-widget="collapse" title="Collapse">
-                  <i class="fas fa-minus"></i>
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus text-white"></i>
                 </button>
               </div>
             </div>
@@ -49,7 +38,7 @@
                       {% if request.user.is_registrar_admin %}
                       <div class="btn-group btn-group-sm">
                         <a href="#" class="btn btn-info mr-3"><i class="fas fa-edit"></i></a>
-                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        <a href="{% url 'registrar_admin:delete_faculty' faculty.id  %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                       </div>
                       {% endif %}
                     </td>
@@ -73,19 +62,9 @@
     <div class="col-6">
         <div class="card card-navy shadow-sm">
             <div class="card-header">
-                <div class="form-inline ">
-                    <div class="input-group bg-info" data-widget="#">
-                      <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                      <div class="input-group-append">
-                        <button class="btn btn-sidebar">
-                          <i class="fas fa-search fa-fw"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-    
+              <h3 class="card-title">Recent registered Programs</h3>
               <div class="card-tools">
-                <button type="button" class="btn btn-tool " style="margin-top: -75px;" data-card-widget="collapse" title="Collapse">
+                <button type="button" class="btn btn-tool"  data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
                 </button>
               </div>
@@ -94,7 +73,7 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>name</th>
+                    <th>Name</th>
                     <th>year required</th>
                     <th> type of degree</th>
                   </tr>

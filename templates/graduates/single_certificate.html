@@ -29,7 +29,7 @@
          }
          .univ_header{
             color:rgb(163, 163, 68);
-            margin-left: 195px;
+            margin-left: 250px;
             font-size: 27px;
             font-weight:bolder;
             margin-top: 1px;
@@ -96,10 +96,12 @@
     <div class="certi">
         <p>This is to certify that
             <span style="color:rgb(223, 82, 82); text-decoration: underline; font-size: 20px; font-weight:700">{{student}}</span>
-            <br> graduate from school of <strong style="font-style: italic;">Electrical Engineering and Computing</strong> <br>
-           with BSc degree in <strong style="font-style: italic;">Computer Science and Engineering</strong>   <br>
-           (Major GPA of <strong> 3.5 </strong>and CGPA of  <strong>3.45</strong> ) <br> 
-           <span style="color: brown">On july 2, 2021 G,c</span> 
+            <br> graduate from school of <strong style="font-style: italic;">{{student.school}}</strong> <br>
+           with <span style="color: rgb(223, 82, 82);" >{{degree_type}} degree</span> in <strong style="font-style: italic;">{{student.department}}</strong>   <br>
+           (Major of GPA <strong> <span style="color: rgb(223, 82, 82);">{{academic_status.GPA}}</span> </strong>and CGPA  of  <strong>
+               <span style="color: rgb(223, 82, 82);">{{academic_status.CGPA}}</span></strong> ) <br> 
+           <span style="font-style: oblique; " >(with Great Distinction)</span><br>
+           <span style="color: brown">{{academic_status.uploaded_date}} G.C</span> 
         </p>
     </div>
     <div class="pending">

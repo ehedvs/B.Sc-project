@@ -8,12 +8,14 @@ User = settings.AUTH_USER_MODEL
 
 
 class Faculty(models.Model):
-    university = models.ForeignKey(University, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=255, unique=True)
-    total_programs = models.IntegerField()
+    total_programs = models.PositiveSmallIntegerField(default=1)
 
     def __str__(self):
         return self.name
+
+  
 
 
 class Program(models.Model):

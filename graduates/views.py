@@ -1,6 +1,7 @@
 import datetime
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
+from django.http import Http404
 from .models import  Student, AcademicHistory, Profile
 from .resources import StudentResource, AcademicalResource
 from django.contrib import messages
@@ -15,7 +16,7 @@ from accounts.decorators import registrar_staff, allowed_users
 from accounts.models import RegistrarStaff, RegistrarAdmin
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import StudentSerializer, ProfileSerializer
+from .serializers import StudentSerializer, ProfileSerializer, CertificateSerializer
 from super_admin import signals
 from registrar_admin.models import Request
 from django.forms.models import modelformset_factory
@@ -39,9 +40,9 @@ def index(request):
         sub = Request.objects.filter(sender=admin)[0:1].values('status')[0]
         status= sub['status']
     status = "approved"
-    students = Student.objects.all().count()
-    acadamic_historys = AcademicHistory.objects.all().count()
-    profile = Profile.objects.filter(image='default.png').count()
+    students = Student.objects.filter(created_by=request.user).count()
+    acadamic_historys = AcademicHistory.objects.filter(uploaded_by=request.user).count()
+    profile = Profile.objects.filter(image='default.png', student__created_by=request.user ).count()
     #profile_changed =100-(profile/students)*100
 
     #certificates = Certificate.objects.filter(image='default.png')
@@ -409,10 +410,19 @@ def certificate_generation(request):
 def single_certificate(request, *args, **kwargs):
     id = kwargs.get('id')
     student = get_object_or_404(Student, id=id)
-  
+
+    dept = student.department
+    year_required = Program.objects.get(name=dept).year_required
+    degree_type = Program.objects.get(name=dept).degree_type
+    try:
+        academic_status = AcademicHistory.objects.get(student=id, batch = year_required, semester=2, student__level_of_completion=100.0)
+        print(academic_status.CGPA)
+
+    except AcademicHistory.DoesNotExist:
+        raise Http404("does not exist")
 
     template_path = 'graduates/single_certificate.html'
-    context = {'student': student}
+    context = {'student': student, 'academic_status':academic_status, 'degree_type':degree_type}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
     #response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -475,17 +485,23 @@ def get_profile(request, id):
     return Response(serializer.data)
 
 
-# certificates serializer
-# @api_view(['GET'])
-# def get_certificates(request):
-#     students = Certificate.objects.all()
-#     pro_serializer = CertificateSerializer(students, many=True)
-#     return Response(pro_serializer.data)
+#certificates serializer
+@api_view(['GET'])
+def get_certificates(request):
+    students = AcademicHistory.objects.filter(student__level_of_completion__gte=100)
+    pro_serializer = CertificateSerializer(students, many=True)
+    return Response(pro_serializer.data)
 
-# # certificate serializer
-# @api_view(['GET'])
-# def get_certificate(request, id):
-#     student = Certificate.objects.get(student=id)
-#     serializer = CertificateSerializer(student, many=False)
-#     return Response(serializer.data)
+# certificate serializer
+@api_view(['GET'])
+def get_certificate(request, id):
+    dept = Student.objects.get(id=id).department
+    year_required = Program.objects.get(name=dept).year_required
+    try:
+        student = AcademicHistory.objects.get(student=id, batch = year_required, semester=2, student__level_of_completion=100.0)
+    except AcademicHistory.DoesNotExist:
+        raise Http404("does not exist")
+
+    serializer = CertificateSerializer(student, many=False)
+    return Response(serializer.data)
 

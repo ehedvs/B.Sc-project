@@ -97,7 +97,7 @@ class AcademicHistory(models.Model):
         max_length=20, choices=status, blank=True, null=True)
     uploaded_by = models.ForeignKey(
         get_user_model(), on_delete=models.SET_NULL, null=True)
-    uploaded_date = models.DateTimeField(auto_now=True)
+    uploaded_date = models.DateField(auto_now=True, verbose_name='Date')
 
     class Meta:
         ordering = ['-uploaded_date']
@@ -135,3 +135,11 @@ def profile_pre_save(sender, instance, *args, **kwargs):
         canvas.save(buffer, 'PNG')
         instance.qr_code.save(fname, File(buffer), save=False)
         canvas.close()
+
+
+
+ 
+
+
+
+
