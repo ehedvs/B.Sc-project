@@ -15,7 +15,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
   <link rel="stylesheet" href="{% static 'dist/css/e-hedvs.min.css ' %}">
-  
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
 </head>
@@ -86,23 +85,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src=" {% static 'dist/js/e-hedvs.min.js' %}"></script>
 
-<script>
-  $(function() {
-    var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    });
-    
+{% block javascript %}
 
-    $('.swalDefaultSuccess').load(function() {
-      Toast.fire({
-        icon: 'success',
-        title: 'The file has successfully uploaded.'
-      })
-    });
-  });
-</script>
+
+
+{% endblock %}   
 </body>
 </html>

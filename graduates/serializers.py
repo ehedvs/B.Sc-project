@@ -6,13 +6,14 @@ from .models import AcademicHistory, Student, Profile
 class CertificateSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(source = 'student.full_name')
     institution  = serializers.CharField(source = 'student.institution')
+    logo  = serializers.CharField(source = 'student.institution.logo')
     dept = serializers.CharField(source = 'student.department')
     school = serializers.CharField(source = 'student.school')
     level_of_completion=serializers.CharField(source = 'student.level_of_completion')
     date = serializers.CharField(source='uploaded_date')
     class Meta:
         model = AcademicHistory
-        fields = ['student', 'full_name', 'institution', 'school', 'dept','GPA','CGPA' , 'date' , 'level_of_completion']
+        fields = ['student', 'full_name', 'institution', 'logo', 'school', 'dept','GPA','CGPA' , 'date' , 'level_of_completion']
 
 
 
