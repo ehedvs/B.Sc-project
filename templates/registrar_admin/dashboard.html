@@ -37,7 +37,6 @@
                     <td class="text-right py-0 align-middle">
                       {% if request.user.is_registrar_admin %}
                       <div class="btn-group btn-group-sm">
-                        <a href="#"></a>
                         <a href="#" onclick="deletingFaculty({{faculty.id}})"><i class="fa fa-trash-alt text-lg text-danger mr-3"></i></a>
                       </div>
                       {% endif %}
@@ -53,9 +52,9 @@
           </div>
     </div>
     <div class="col-6">
-        <div class="card card-navy shadow-sm">
+        <div class="card card-info shadow-sm">
             <div class="card-header">
-              <h3 class="card-title">Recent registered Programs</h3>
+              <h3 class="card-title ">Recent registered Programs</h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool"  data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
@@ -83,9 +82,9 @@
                       {% if request.user.is_registrar_admin %}
                       <div class="btn-group btn-group-sm">
                         
-                        <a href="{% url 'registrar_admin:update_program' program.id  %}" class="btn btn-info mr-3 "><i class="fas fa-edit"></i></a>
+                        <a href="{% url 'registrar_admin:update_program' program.id  %}" ><i class="fa fa-edit text-lg mr-2"></i></a>
                        
-                        <a href="#" onclick="deletingFaculty({{program.id}})" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        <a href="#" onclick="deletingProgram({{program.id}})"><i class="fa fa-trash-alt text-lg text-danger"></i></a>
                       </div>
                       {% endif %}
                     </td>
