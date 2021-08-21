@@ -34,6 +34,7 @@ class ProgramForms(ModelForm):
         'name':'Name of program',
         
         }
+        
     def __init__(self, logged_univ, *args, **kwargs):
         super(ProgramForms, self).__init__(*args,**kwargs)
         self.fields['faculty'].queryset=Faculty.objects.filter(university=logged_univ)

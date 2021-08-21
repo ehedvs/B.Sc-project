@@ -4,13 +4,19 @@ from django.conf import settings
 from accounts.models import RegistrarAdmin
 User = settings.AUTH_USER_MODEL
 
+from .validators import validate_even
+
 
 
 
 class Faculty(models.Model):
     university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=255, unique=True)
-    total_programs = models.PositiveSmallIntegerField(default=1)
+    name = models.CharField(max_length=255)
+    total_programs = models.PositiveSmallIntegerField()
+
+    class Meta:
+        unique_together = ('university', 'name',)
+        ordering = ['-id']
 
     def __str__(self):
         return self.name
@@ -39,7 +45,7 @@ class Program(models.Model):
     )
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, unique=True)
-    year_required = models.IntegerField()
+    year_required = models.PositiveSmallIntegerField(validators=[validate_even])
     degree_type = models.CharField(max_length=50, choices=degree_type)
 
     def __str__(self):

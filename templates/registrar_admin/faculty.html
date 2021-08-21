@@ -5,6 +5,24 @@
 {% block first %}faculty {% endblock %}
 {% block second %}program{% endblock %}
 {% block content%}
+
+<div>
+  {% if messages %}
+  {% for m in messages %}
+  <script>
+    Swal.fire({
+      "title":"Warning!",
+      "text":"{{m}}",
+      "icon":"warning",
+      "width":400,
+      "height":100,
+
+    })
+  </script>
+  {% endfor %}
+  {% endif %}
+
+</div>
    <div class="row">
     <div class="col-6">
         <div class="card card-info">

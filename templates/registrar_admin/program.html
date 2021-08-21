@@ -22,6 +22,7 @@
               
               <form action="" method="POST">
                   {% csrf_token %}
+                  {{program|as_crispy_errors }}
                   {{program.faculty|as_crispy_field}}
                   {{program.name|as_crispy_field}}
                   {{program.year_required|as_crispy_field}}

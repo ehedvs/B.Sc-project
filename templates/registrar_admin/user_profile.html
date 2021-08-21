@@ -4,18 +4,20 @@
         {% block subtitle %}User Profile{% endblock %}
         {% block first %}home {% endblock %}
         {% block second %}user profile{% endblock %}
- 
        {% block content%}
        <div class="card card-solid">
-        <div class="card-body pb-0">
+        <div class="card-body  pb-0">
           <div class="row">
+            {% if not lists %}
+                <h4 class="text-center ml-5 p-2">You have not registered Academic staff yet</h4>
+                {% endif %}
                 {% for list in lists %}
                 <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
                         <div class="card bg-default d-flex flex-fill bg-light">
                           <div class="card-header text-muted border-bottom-0">
                           Registrar Staff
                           </div>
-                          <div class="card-body pt-0 ">
+                          <div class="card-body pt-0">
                             <div class="row">
                               <div class="col-7 ">
                                 <h2 class="lead text-capitalize "><b style="color: rgb(0, 0, 0);">{{list.user.username}}</b></h2>
@@ -33,17 +35,11 @@
                           </div>
                           <div class="card-footer">
                             <div class="text-right">
-                              <a href="#" class="btn btn-sm bg-teal">
-                                <i class="fas fa-comments"></i>
-                              </a>
-                              <a href="" class="btn btn-sm bg-info">
-                                <i class="fas fa-pencil-alt  "></i>
-                              </a>
-                              <a href="" class="btn btn-sm bg-danger">
+                              <a href="{% url 'registrar_admin:delete_staff' list.user.id %}" class="btn btn-sm bg-danger">
                                 <i class="fas fa-trash-alt"></i>
                               </a>
                               <a href="#" class="btn btn-sm btn-primary">
-                                <i class="fas fa-user"></i> View Profile
+                                <i class="fas fa-user"></i> View logs
                               </a>
                             </div>
                           </div>

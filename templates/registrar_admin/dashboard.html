@@ -37,7 +37,7 @@
                     <td class="text-right py-0 align-middle">
                       {% if request.user.is_registrar_admin %}
                       <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info mr-3"><i class="fas fa-edit"></i></a>
+                        <a href="{% url 'registrar_admin:update_faculty' faculty.id  %}" class="btn btn-info mr-3"><i class="fas fa-edit"></i></a>
                         <a href="{% url 'registrar_admin:delete_faculty' faculty.id  %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                       </div>
                       {% endif %}
@@ -90,9 +90,9 @@
                       {% if request.user.is_registrar_admin %}
                       <div class="btn-group btn-group-sm">
                         
-                        <a href="#" class="btn btn-info mr-3 "><i class="fas fa-edit"></i></a>
+                        <a href="{% url 'registrar_admin:update_program' program.id  %}" class="btn btn-info mr-3 "><i class="fas fa-edit"></i></a>
                        
-                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        <a href="{% url 'registrar_admin:delete_program' program.id  %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                       </div>
                       {% endif %}
                     </td>
