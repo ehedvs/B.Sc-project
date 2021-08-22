@@ -26,15 +26,16 @@ class University(models.Model):
 # activitylog tracer 
 class ActivityLog(models.Model):
     user = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.CASCADE)
+        User, blank=True, null=True, on_delete=models.SET_NULL)
+    institution = models.ForeignKey(University, blank=True, null=True, on_delete=models.SET_NULL)
     instance = models.CharField(max_length=250)
     operation = models.CharField(max_length=100, editable=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
     ip_address = models.CharField(max_length=220, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         if self.operation == "student_registry":
-            return "%s Registed  %s on %s" % (self.user, self.instance, self.timestamp)
+            return "%s Registered  %s on %s" % (self.user, self.instance, self.timestamp)
         elif self.operation == "student_deletion":
             return "%s Deleted %s on %s" % (self.user, self.instance, self.timestamp)
         elif self.operation == "create_staff":
@@ -42,6 +43,11 @@ class ActivityLog(models.Model):
 
         elif self.operation == "certificate_generation":
             return " Certificate of %s  generated on %s by %s" % (self.instance, self.timestamp, self.user)
+
+        elif self.operation == "academic_upload":
+            return " Academic status of %s  uploaded on %s by %s" % (self.instance, self.timestamp, self.user)
+        elif self.operation == "acadmic_status_deletion":
+            return " Academic status of %s  deleted on %s by %s" % (self.instance, self.timestamp, self.user)
 
     class Meta:
         ordering = ['-timestamp']

@@ -164,18 +164,18 @@ def useProfile(request):
 def activity_logs(request):
     logged_admin = request.user
     logged_university = RegistrarAdmin.objects.get(user=logged_admin).university
-    staff = RegistrarStaff.objects.filter(university=logged_university).values_list('user_id', flat=True)
-    print(staff)
-    #activities = ActivityLog.objects.filter(user__university=logged_admin)
-    #print(activities)
-    user_creation = ActivityLog.objects.filter(operation="create_staff").count()
-    student_registry = ActivityLog.objects.filter(operation="student_registry").count()
-    certificate_generation = ActivityLog.objects.filter(operation="student_deletion").count()
-    student_deletion = ActivityLog.objects.filter(operation="certificate_generation").count()
+    top_three_staffs = RegistrarStaff.objects.filter(university=logged_university)[:3]
+    activities = ActivityLog.objects.filter(institution=logged_university)
+    academic_upload = ActivityLog.objects.filter(operation="academic_upload" , institution=logged_university).count()
+    acadmic_status_deletion = ActivityLog.objects.filter(operation="acadmic_status_deletion" , institution=logged_university).count()
+    student_registry = ActivityLog.objects.filter(operation="student_registry", institution=logged_university).count()
+    certificate_generation = ActivityLog.objects.filter(operation="student_deletion", institution=logged_university).count()
+    student_deletion = ActivityLog.objects.filter(operation="certificate_generation", institution=logged_university).count()
     context = {
 
-       #'activities':activities,
-       'user_creation':user_creation,
+       'activities':activities,
+       'academic_upload':academic_upload,
+       'acadmic_status_deletion':acadmic_status_deletion,
        'student_registry':student_registry,
        'certificate_generation': certificate_generation,
        'student_deletion':student_deletion,
