@@ -7,8 +7,10 @@ from django.contrib import messages
 from accounts.forms import AdminSignUpForm
 from django.contrib.auth.decorators import login_required
 from .forms import UniversityForm
-from accounts.decorators import super_admin
-from registrar_admin.models import Request
+from accounts.decorators import registrar_staff, super_admin
+from registrar_admin.models import Request, Faculty
+from graduates.models import Student
+
 from django.db import IntegrityError
 
 from background_task import background
@@ -82,6 +84,34 @@ def useProfile(request):
     return render(request, 'super_admin/user_profile.html', context)
 
 
+#institution detail
+def institution_detail(request, id):
+    institution = University.objects.get(id=id)
+    registrar_staffs = RegistrarStaff.objects.filter(university=institution).count()
+    students = Student.objects.filter(institution=institution).count()
+    recent_activites = ActivityLog.objects.filter(institution=institution)[:3]
+    certificate_generated = ActivityLog.objects.filter(operation="certificate_generation", institution=institution).count()
+    
+    schools = Faculty.objects.filter(university=institution)[:4]
+
+    try:
+        registrar_admin=RegistrarAdmin.objects.get(university=institution)
+        registrar_staffs=registrar_staffs+1
+    
+    except RegistrarAdmin.DoesNotExist:
+        registrar_admin="No Admin"
+    
+
+    context = {
+         'institution':institution,
+         'registrar_admin':registrar_admin,
+         'registrar_staffs':registrar_staffs,
+         'students':students,
+         'recent_activites':recent_activites,
+         'certificate_generated': certificate_generated,
+         'schools':schools
+    }
+    return render(request, 'super_admin/university.html', context)
 
 #update univeristy
 @login_required(login_url='accounts:login')

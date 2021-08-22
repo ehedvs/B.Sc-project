@@ -103,7 +103,7 @@
                   <tbody>
                     {% for list in lists %}
                     <tr >
-                      <td > <img class="img-size-50 mr-3 img-circle" src="{{list.logo.url}}" alt=""></td>
+                      <td > <a href="{% url 'super_admin:univ' list.id%}"><img class="img-size-50 mr-3 img-circle" src="{{list.logo.url}}" alt=""></a> </td>
                       <td>{{list.name}}</td>
                       <td>{{list.email}}</td>
                       <td>{{list.phone_no1}}</td>

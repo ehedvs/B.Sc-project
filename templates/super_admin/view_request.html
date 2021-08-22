@@ -27,7 +27,7 @@
                     <tbody id="request-status">
                         {% for subject in subjects %}
                         <tr >
-                            <td class="text-info">{{subject.timestamp}}</td>
+                            <td class="text-info">{{subject.timestamp|timesince}} ago</td>
                             <td class='text-capitalize'>{{subject.sender.university}}</td>
                             {% if subject.status == 'pending'%}
                             <td class="text-info">{{subject.request}}</td>

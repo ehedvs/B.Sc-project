@@ -6,7 +6,7 @@ from super_admin.models import University
 class User(AbstractUser):
     is_registrar_admin = models.BooleanField(default=False)
     is_registrar_staff = models.BooleanField(default=False)
-    image = models.ImageField(upload_to="user/", blank=True, null=True)
+    image = models.ImageField(upload_to="user/", blank=True, null=True, default='default.png')
 
 
 class RegistrarAdmin(models.Model):

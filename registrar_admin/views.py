@@ -165,7 +165,7 @@ def activity_logs(request):
     logged_admin = request.user
     logged_university = RegistrarAdmin.objects.get(user=logged_admin).university
     top_three_staffs = RegistrarStaff.objects.filter(university=logged_university)[:3]
-    activities = ActivityLog.objects.filter(institution=logged_university)
+    activities = ActivityLog.objects.filter(institution=logged_university).exclude(user__is_registrar_admin=True)
     academic_upload = ActivityLog.objects.filter(operation="academic_upload" , institution=logged_university).count()
     acadmic_status_deletion = ActivityLog.objects.filter(operation="acadmic_status_deletion" , institution=logged_university).count()
     student_registry = ActivityLog.objects.filter(operation="student_registry", institution=logged_university).count()

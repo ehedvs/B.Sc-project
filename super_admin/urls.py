@@ -5,6 +5,7 @@ app_name ='super_admin'
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
     path('register/', views.registration, name='register'),
+    path('univ/<str:id>/', views.institution_detail, name='univ'),
     path('account/', views.createAccount, name='account'),
     path('user_profile/', views.useProfile, name='user_profile'),
     path('update_unv/<int:pk>/',views.updateUnv, name='update_unv'),
