@@ -1,6 +1,6 @@
-{% extends 'registrar_admin/main.html' %}
+{% extends 'super_admin/main.html' %}
 {% load static %}
-{% block subtitle %}Request{% endblock %}
+{% block subtitle %}Messaging{% endblock %}
 {% block first %}home {% endblock %}
 {% block second %}dashboard{% endblock %}
 {% block content%}
@@ -8,10 +8,9 @@
     <div class="card-body">
       <div class="row">
        <div class="col-md-4">
-    
       <div class="card card-success card-outline direct-chat direct-chat-success shadow-sm">
         <div class="card-header">
-          <h3 class="card-title">Send Request</h3>
+          <h3 class="card-title">Send Message</h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -32,28 +31,28 @@
             <!-- Message. Default to the left -->
             <div class="direct-chat-msg">
               <div class="direct-chat-infos clearfix">
-                <span class="direct-chat-name float-left">Super Admin</span>
-                <span class="direct-chat-timestamp float-right">15 min ago</span>
+                <span class="direct-chat-name float-left text-capitalize">{{last_message.sender}}</span>
+                <span class="direct-chat-timestamp float-right">{{last_message.timestamp|timesince}} ago</span>
               </div>
               <!-- /.direct-chat-infos -->
-              <img class="direct-chat-img" src="{% static 'dist/img/1.jpg' %}" alt="Message User Image">
+              <img class="direct-chat-img" src="{{last_message.sender.user.image.url }}" alt="Message User Image">
               <!-- /.direct-chat-img -->
               <div class="direct-chat-text">
-                student registration and grade report
+                {{last_message}}
               </div>
               <!-- /.direct-chat-text -->
             </div>
             <!-- /.direct-chat-msg -->
 
             <!-- Message to the right -->
-            {% for message in messages %}
+            {% for message in last_messages %}
             <div class="direct-chat-msg right">
               <div class="direct-chat-infos clearfix">
                 <span class="direct-chat-name float-right text-capitalize" >{{message.sender}}</span>
                 <span class="direct-chat-timestamp float-left">{{message.timestamp|timesince}} ago</span>
               </div>
               <!-- /.direct-chat-infos -->
-              <img class="direct-chat-img" src="{{message.sender.user.image.url}}" alt="Message User Image">
+              <img class="direct-chat-img" src="{% static 'dist/img/user.png' %}" alt="Message User Image">
               <!-- /.direct-chat-img -->
               <div class="direct-chat-text">
               {{message}}

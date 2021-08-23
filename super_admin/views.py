@@ -7,10 +7,10 @@ from django.contrib import messages
 from accounts.forms import AdminSignUpForm
 from django.contrib.auth.decorators import login_required
 from .forms import UniversityForm
-from accounts.decorators import registrar_staff, super_admin
+from accounts.decorators import registrar_admin, registrar_staff, super_admin
 from registrar_admin.models import Request, Faculty
 from graduates.models import Student
-
+from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 
 from background_task import background
@@ -171,7 +171,21 @@ def view_request(request):
     }
     return render(request, 'super_admin/view_request.html', context)
 
-
+#chat with specific user
+def message_with_registrar_admin(request, id):
+    registrar_admin = RegistrarAdmin.objects.get(user_id=id)
+    last_message = Request.objects.filter(sender=registrar_admin).first()
+    if request.method =='POST':
+        subject = request.POST.get('subject')
+        super_admin = get_user_model().objects.get(is_superuser=True)
+        Request.objects.create(sender=registrar_admin, reciever=super_admin, request=subject)
+    
+    
+    context = {
+     'registrar_admin':registrar_admin,
+     'last_message': last_message 
+    }
+    return render(request, 'super_admin/message_with_ra.html', context)
 # approving request
 def approve_request(request, id):
     subject = Request.objects.get(id=id)

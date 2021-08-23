@@ -32,7 +32,7 @@
                           </div>
                           <div class="card-footer">
                             <div class="text-right">
-                              <a href="#" class="btn btn-sm bg-teal">
+                              <a href="{% url 'super_admin:message_ra' list.user.id %}" class="btn btn-sm bg-teal">
                                 <i class="fas fa-comments"></i>
                               </a>
                               <a href="#" onclick="deletingUser({{list.user.id}})" class="btn btn-sm bg-danger">
