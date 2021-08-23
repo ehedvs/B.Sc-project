@@ -16,5 +16,8 @@ urlpatterns = [
     path('send_request/', views.send_request, name='send_request'),
     path('delete_request/<int:id>/', views.delete_request, name='delete_request'),
     path('activity_logs/', views.activity_logs, name='activity_logs'),
+    path('certificate_archive/', views.certificate_archive, name='certificate_archive'),
+    path('status_detail/<path:id>/', views.status_detail, name='status_detail' ),
+
 
 ]

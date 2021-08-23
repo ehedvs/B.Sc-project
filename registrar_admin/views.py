@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate,login,logout
 from accounts.decorators import registrar_admin
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
+from graduates.models import Student, AcademicHistory
 
 
 
@@ -160,6 +161,9 @@ def useProfile(request):
     context = {'lists':lists}
     return render(request, 'registrar_admin/user_profile.html', context)
 
+
+
+
 # activity logs
 def activity_logs(request):
     logged_admin = request.user
@@ -182,11 +186,36 @@ def activity_logs(request):
     }
     return render(request, 'registrar_admin/activiy_logs.html', context)
 
+#certificate archive
+
+def certificate_archive(request):
+     certificates = Student.objects.filter(level_of_completion=100.0)
+
+    
+     context = {
+        'certificates': certificates,
+
+    }
+    
+     return render(request, 'registrar_admin/certificate_archive.html', context)
+
+# graduate detail
+def status_detail(request, id):
+    name = Student.objects.get(id=id)
+    dept = name.department
+    required_year= Program.objects.get(name=dept).year_required
+    print(required_year)
+    graduate = AcademicHistory.objects.get(student=id, batch=required_year, semester=2)
+    student = AcademicHistory.objects.filter(student=id)
+    context = {'students': student, 'name': name, 'graduate':graduate}
+    return render(request, 'registrar_admin/status_detail.html', context)
+
 # sending request to super_admin
 def send_request(request):
     logged_user = request.user
     registrar_admin=RegistrarAdmin.objects.get(user=logged_user)
     requests = Request.objects.filter(sender=registrar_admin)[0:4]
+    messages = Request.objects.filter(sender=registrar_admin)[0:1]
     if request.method =='POST':
         subject = request.POST.get('subject')
         super_admin = get_user_model().objects.get(is_superuser=True)
@@ -197,7 +226,8 @@ def send_request(request):
         
         
     context ={
-        'requests':requests
+        'requests':requests,
+        'messages':messages
     }
     return render(request, 'registrar_admin/request.html', context)
 
