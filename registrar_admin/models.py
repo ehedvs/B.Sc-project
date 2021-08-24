@@ -60,8 +60,8 @@ class Request(models.Model):
         ('approved','approved'),
         ('expired','expired'),
     )
-    sender = models.ForeignKey(RegistrarAdmin, on_delete=models.CASCADE)
-    reciever = models.ForeignKey(User, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="registrar_admin")
+    reciever = models.ForeignKey(User, on_delete=models.CASCADE, related_name="super_admin")
     request = models.TextField()
     status = models.CharField(max_length=50, choices=request_status, default='pending')
     timestamp = models.DateTimeField(auto_now_add=True)
