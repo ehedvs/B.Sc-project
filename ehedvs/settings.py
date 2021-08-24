@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'super_admin',
     'registrar_admin',
     'graduates',
+    'web_users',
     'rest_framework',
     'phonenumber_field',
     'crispy_forms',

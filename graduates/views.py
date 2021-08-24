@@ -505,3 +505,8 @@ def get_certificate(request, id):
     serializer = CertificateSerializer(student, many=False)
     return Response(serializer.data)
 
+def website_user(request):
+    context = {
+
+    }
+    return render(request, 'graduates/index.html', context)
