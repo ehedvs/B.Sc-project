@@ -2,12 +2,11 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
-from web_users import views as e_hedvs
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', e_hedvs.web_user, name='certificate' ),
+    path('', include('web_users.urls')),
     path('accounts/', include('accounts.urls')),
     path('super_admin/', include('super_admin.urls')),
     path('registrar_admin/', include('registrar_admin.urls')),
