@@ -28,11 +28,12 @@ import shlex
 @super_admin
 def dashboard(request):
     lists = University.objects.all().order_by('-id')
+    students=Student.objects.filter(level_of_completion=100.0).count()
     total_unv = lists.count()
     registrar_admin = RegistrarAdmin.objects.all().count()
     registrar_staff = RegistrarStaff.objects.all().count()
     users=registrar_admin+registrar_staff
-    context = {'lists':lists , 'total_unv':total_unv, 'users':users}
+    context = {'lists':lists , 'total_unv':total_unv, 'users':users, 'students':students}
     return render(request, 'super_admin/dashboard.html', context)
 
 # register high educational institution
@@ -212,7 +213,7 @@ def delete_request(request, id):
     return redirect('/super_admin/user_profile/')
 
 #------------background task expring request-------#   
-@background(schedule=20)
+@background(schedule=30)
 def expire_request(pk):
     Request.objects.filter(id=pk).update(status="expired")
    

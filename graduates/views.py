@@ -12,8 +12,8 @@ from django.utils import timezone
 from .filter import AcademicFilter, StudentFilter
 from datetime import date
 from django.contrib.auth.decorators import login_required
-from accounts.decorators import registrar_staff, allowed_users
-from accounts.models import RegistrarStaff, RegistrarAdmin
+from accounts.decorators import registrar_admin, registrar_staff, allowed_users
+from accounts.models import RegistrarStaff, RegistrarAdmin, User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import StudentSerializer, ProfileSerializer, CertificateSerializer
@@ -34,22 +34,24 @@ from graduates import serializers
 @allowed_users(allowed_roles=['registrar_staff'])
 def index(request):
     status = "pending"
-    uni = RegistrarStaff.objects.get(user = request.user).university
-    admin = RegistrarAdmin.objects.get(university=uni)
-    if Request.objects.filter(sender=admin)[0:1]:
-        sub = Request.objects.filter(sender=admin)[0:1].values('status')[0]
+    uni = RegistrarStaff.objects.get(user=request.user).university
+    print(uni)
+    r_admin = User.objects.get(registraradmin__university=uni)
+    print(r_admin)
+    if Request.objects.filter(sender=r_admin)[0:1]:
+        sub = Request.objects.filter(sender=r_admin)[0:1].values('status')[0]
         status= sub['status']
-    status = "approved"
+    #--------------------------------------------------#
+    #status = "approved"                       
+    #--------------------------------------------------#
     students = Student.objects.filter(created_by=request.user).count()
     acadamic_historys = AcademicHistory.objects.filter(uploaded_by=request.user).count()
     profile = Profile.objects.filter(image='default.png', student__created_by=request.user ).count()
-    #profile_changed =100-(profile/students)*100
-
-    #certificates = Certificate.objects.filter(image='default.png')
+    profile_changed =100-(profile/students)*100
     context = {
         'students': students,
         'acadamic_historys': acadamic_historys,
-        # 'profile_changed':profile_changed,
+         'profile_changed':profile_changed,
         'profile': profile,
         'status':status
     }

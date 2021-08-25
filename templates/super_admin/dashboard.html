@@ -37,7 +37,7 @@
       
                   <div class="info-box-content">
                     <span class="info-box-text ">Prepared Certificates</span>
-                    <span class="info-box-number">0</span>
+                    <span class="info-box-number">{{students}}</span>
                   </div>
                 </div>
                 </div>
@@ -60,30 +60,18 @@
 
         <div class="row mt-5">
           <div class="col-12">
-            <h4 class="text-center mb-3"><b>List of Institutions</b></h4>
-            <div class="card card-default">
-              <div class="card-header">
-                <h3 class="card-title">List of Institutions</h3>
+            <h4 class="text-center mb-3"><b>List of Institutions </b></h4>
+              <div class="card-header callout callout-success ">
+                <div class="">
 
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn  btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
+                <h3 class="card-title">List of Registered Institutions </h3>
                 </div>
-                <div class="card-tools">
-                
-                      <a  type="submit" class="btn  btn-outline-success btn-xs mr-5 text-xs " href="{% url 'super_admin:register' %}" >
-                        <i class="fas fa-plus-circle"> Add new</i>
-                      </a>
-                  </div>
+                <div class="card-tools float-right">
+                  <a  type="submit" class="btn  btn-outline-success btn-xs mr-5 text-xs " href="{% url 'super_admin:register' %}" >
+                    <i class="fas fa-plus-circle"> Add new</i>
+                  </a>
                 </div>
-              </div>
+                </div>
               <!-- /.card-header -->
    
               
