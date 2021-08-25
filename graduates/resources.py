@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.query import FlatValuesListIterable
+from django.shortcuts import redirect
 from import_export import fields, resources
 from import_export.widgets import ForeignKeyWidget
 from super_admin.models import University
@@ -26,7 +27,7 @@ class StudentResource(resources.ModelResource):
         row['registration_year'] = kwargs['reg_year']
         row['created_by'] = kwargs['created_by']
         
-        
+   
     
     class Meta:
         model=Student
@@ -59,6 +60,18 @@ class AcademicalResource(resources.ModelResource):
     def before_import_row(self, row, row_number, **kwargs):
         row['uploaded_by'] = kwargs['uploaded_by']
         row['uploaded_date'] = kwargs['uploaded_date']
+
+    def before_save_instance(self, instance, using_transactions, dry_run):
+        if instance.GPA > 4.0:
+            raise ValueError("GPA cannot be greater than 4.0")
+        elif instance.GPA < 1.5:
+            raise ValueError("GPA cannot be less than 1.5")
+        elif instance.CGPA > 4.0:
+            raise ValueError("CGPA cannot be greater than 4.0")
+        elif instance.GPA < 1.5:
+            raise ValueError("CGPA cannot be less than 1.5")
+        else:
+            return super().before_save_instance(instance, using_transactions, dry_run)
 
 
 

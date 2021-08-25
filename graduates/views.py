@@ -42,12 +42,14 @@ def index(request):
         sub = Request.objects.filter(sender=r_admin)[0:1].values('status')[0]
         status= sub['status']
     #--------------------------------------------------#
-    #status = "approved"                       
+    status = "approved"                       
     #--------------------------------------------------#
     students = Student.objects.filter(created_by=request.user).count()
+    profile_changed=None
     acadamic_historys = AcademicHistory.objects.filter(uploaded_by=request.user).count()
     profile = Profile.objects.filter(image='default.png', student__created_by=request.user ).count()
-    profile_changed =100-(profile/students)*100
+    if students:
+        profile_changed =100-(profile/students)*100
     context = {
         'students': students,
         'acadamic_historys': acadamic_historys,
@@ -259,75 +261,85 @@ def know(request):
 
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
-def upload(request):
-    if request.method == 'POST':
-        student_resource = StudentResource()
-        dataset = Dataset()
-        new_student = request.FILES['myfile']
-        imported_data = dataset.load(new_student.read(), format='xlsx')
-        # logged_user
-        user = request.user.id
-        unv = RegistrarStaff.objects.get(user_id=user).university_id
-        created_by = request.user.id
-        registration_year = datetime.date.today()
+def student_upload(request):
+    try:
+         if request.method == 'POST':
+            student_resource = StudentResource()
+            dataset = Dataset()
+            new_student = request.FILES['myfile']
+            imported_data = dataset.load(new_student.read(), format='xlsx')
+            # logged_user
+            user = request.user.id
+            unv = RegistrarStaff.objects.get(user_id=user).university_id
+            created_by = request.user.id
+            registration_year = datetime.date.today()
 
-        result = student_resource.import_data(
-            dataset,
-            dry_run=True,
-            raise_errors=True,
-            institution=unv,
-            created_by=created_by,
-            reg_year=registration_year
-        )
-        if result.has_errors():
-            messages.error(request, 'Uh oh! Something went wrong....')
-
-        else:
-            student_resource.import_data(
+            result = student_resource.import_data(
                 dataset,
-                dry_run=False,
+                dry_run=True,
+                raise_errors=True,
                 institution=unv,
                 created_by=created_by,
                 reg_year=registration_year
             )
-            messages.success(
-                request, 'You have uploaded the file  successfully!')
-            return redirect('/graduates/student')
+            if result.has_errors():
+                messages.error(request, 'Uh oh! Something went wrong....')
 
+            else:
+                student_resource.import_data(
+                    dataset,
+                    dry_run=False,
+                    institution=unv,
+                    created_by=created_by,
+                    reg_year=registration_year
+                )
+                messages.success(
+                    request, 'You have uploaded the file  successfully!')
+                return redirect('/graduates/student')
+
+    except Exception as e:
+       messages.error(request, e)
+       return redirect('/graduates/')
+   
     return render(request, 'graduates/upload.html')
 
 
 @login_required(login_url='accounts:login')
 @allowed_users(allowed_roles=['registrar_staff'])
 def acadamic_history(request):
-    if request.method == 'POST':
-        student_resource = AcademicalResource()
-        dataset = Dataset()
-        new_student = request.FILES['myfile']
-        imported_data = dataset.load(new_student.read(), format='xlsx')
-        now = datetime.date.today()
-        uploaded_by = request.user.id
+    try:
+        if request.method == 'POST':
+            student_resource = AcademicalResource()
+            dataset = Dataset()
+            new_student = request.FILES['myfile']
+            imported_data = dataset.load(new_student.read(), format='xlsx')
+            now = datetime.date.today()
+            uploaded_by = request.user.id
 
-        result = student_resource.import_data(
-            dataset,
-            dry_run=True,
-            raise_errors=True,
-            uploaded_by=uploaded_by,
-            uploaded_date=now
-        )
-        if result.has_errors():
-            messages.error(request, 'Uh oh! Something went wrong....')
-
-        else:
-            student_resource.import_data(
+            result = student_resource.import_data(
                 dataset,
-                dry_run=False,
+                dry_run=True,
+                raise_errors=True,
                 uploaded_by=uploaded_by,
                 uploaded_date=now
             )
-            messages.success(request, 'You have uploaded successfully!')
-            return redirect('/graduates/status/')
+            if result.has_errors():
+                messages.error(request, 'Uh oh! Something went wrong....')
 
+            else:
+                student_resource.import_data(
+                    dataset,
+                    dry_run=False,
+                    uploaded_by=uploaded_by,
+                    uploaded_date=now
+                )
+                messages.success(request, 'You have uploaded successfully!')
+                return redirect('/graduates/')
+
+    except Exception as e:
+        messages.error(request, e)
+        return redirect('/graduates/')
+   
     return render(request, 'graduates/acadamic_history.html')
 
 

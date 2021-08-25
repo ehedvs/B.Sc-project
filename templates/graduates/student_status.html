@@ -9,6 +9,7 @@
 <div>
   {% if messages %}
   {% for m in messages %}
+  {% if m.tags == 'success' %}
   <script>
     Swal.fire({
       "title":"Success!",
@@ -19,9 +20,22 @@
 
     })
   </script>
+  {% endif %}
+  {% if m.tags == 'error' %}
+  <script>
+    Swal.fire({
+      "title":"Error!",
+      "text":"{{m}}",
+      "icon":"error",
+      "width":400,
+      "height":100,
+
+    })
+  </script>
+  {% endif %}
   {% endfor %}
   {% endif %}
-
+</div>
 
 <div class="row">
   <div class="col-md-12">
