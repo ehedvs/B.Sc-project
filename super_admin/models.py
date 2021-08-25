@@ -2,15 +2,21 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.conf import settings
 User = settings.AUTH_USER_MODEL
+from django.core.validators import RegexValidator
+
 
 
 #university db
 class University(models.Model):
+    phone_regex = RegexValidator(
+        regex=r'^(\+251)\d{9}$',
+        message='Phone number must be in format of  +251930598989'
+    )
     name = models.CharField(max_length=300, unique=True)
     email = models.EmailField(max_length=255, unique=True)
-    phone_no1 = PhoneNumberField(unique=True)
-    phone_no2 = PhoneNumberField(blank=True, null=True, unique=True)
-    fax_no = PhoneNumberField(unique=True)
+    phone_no1 =models.CharField(validators=[phone_regex], max_length=15,unique=True)
+    phone_no2 =models.CharField(validators=[phone_regex], max_length=15, blank=True, null=True)
+    fax_no =models.CharField(validators=[phone_regex], max_length=15, unique=True)
     website = models.URLField(max_length=200, unique=True)
     pob = models.PositiveSmallIntegerField(unique=True)
     city = models.CharField(max_length=200, blank=True,)

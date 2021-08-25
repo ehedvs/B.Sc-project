@@ -32,8 +32,6 @@ def not_found(request):
     return render(request, 'accounts/404.html')
 
 
-def me(request):
-    return render(request, 'accounts/me.html')
 
 
 
