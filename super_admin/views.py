@@ -165,7 +165,8 @@ def activity_logs(request):
 
 # view send request
 def view_request(request):
-    subjects = Request.objects.all()[0:5]
+    logged_user=request.user
+    subjects = Request.objects.exclude(sender=logged_user)[0:5]
     context = {
         'subjects':subjects
     }
@@ -173,17 +174,24 @@ def view_request(request):
 
 #chat with specific user
 def message_with_registrar_admin(request, id):
-    registrar_admin = RegistrarAdmin.objects.get(user_id=id)
+    registrar_admin = User.objects.get(id=id)
+    super_admin = get_user_model().objects.get(is_superuser=True)
     last_message = Request.objects.filter(sender=registrar_admin).first()
+    messages_sent = Request.objects.filter(sender=super_admin, reciever=registrar_admin)[0:1]
+    top_four_messages = Request.objects.filter(sender=super_admin, reciever=registrar_admin )[0:4]
+    print(last_message)
     if request.method =='POST':
         subject = request.POST.get('subject')
-        super_admin = get_user_model().objects.get(is_superuser=True)
-        Request.objects.create(sender=registrar_admin, reciever=super_admin, request=subject)
+        Request.objects.create(sender=super_admin, reciever=registrar_admin, request=subject)
     
     
     context = {
      'registrar_admin':registrar_admin,
-     'last_message': last_message 
+     'last_message': last_message ,
+     'registrar_admin':registrar_admin,
+     'messages_sent':messages_sent,
+     'super_admin': super_admin,
+     'top_four_messages':top_four_messages
     }
     return render(request, 'super_admin/message_with_ra.html', context)
 # approving request
@@ -197,6 +205,11 @@ def approve_request(request, id):
         return redirect('/super_admin/view_request')
     context = {'subject':subject}
     return render(request, 'super_admin/approve_request.html', context)
+
+def delete_request(request, id):
+    rqst = Request.objects.get(id=id)
+    rqst.delete()
+    return redirect('/super_admin/user_profile/')
 
 #------------background task expring request-------#   
 @background(schedule=20)

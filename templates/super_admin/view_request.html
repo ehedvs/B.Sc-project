@@ -18,7 +18,7 @@
                     <thead class=" bg-olive">
                         <tr>
                             <th>Date</th>
-                            <th>Sender( <span class="text-black-50">ADIMN</span> of) </th>
+                            <th>Sender</th>
                             <th style="width: 300px;">Request</th>
                             <th class="">Status</th>
                              <th></th>
@@ -28,7 +28,7 @@
                         {% for subject in subjects %}
                         <tr >
                             <td class="text-info">{{subject.timestamp|timesince}} ago</td>
-                            <td class='text-capitalize'>{{subject.sender.university}}</td>
+                            <td class='text-capitalize'>{{subject.sender}}</td>
                             {% if subject.status == 'pending'%}
                             <td class="text-info">{{subject.request}}</td>
                             <td class="text-info" >{{subject.status}}</td>

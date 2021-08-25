@@ -213,21 +213,24 @@ def status_detail(request, id):
 # sending request to super_admin
 def send_request(request):
     logged_user = request.user
-    registrar_admin=RegistrarAdmin.objects.get(user=logged_user)
+    registrar_admin=User.objects.get(username=logged_user)
+    super_admin = get_user_model().objects.get(is_superuser=True)
     requests = Request.objects.filter(sender=registrar_admin)[0:4]
     messages = Request.objects.filter(sender=registrar_admin)[0:1]
+    last_message = Request.objects.filter(sender=super_admin, reciever=registrar_admin).first()
+    print(last_message)
     if request.method =='POST':
         subject = request.POST.get('subject')
-        super_admin = get_user_model().objects.get(is_superuser=True)
         logged_user = request.user
-        registrar_admin=RegistrarAdmin.objects.get(user=logged_user)
         Request.objects.create(sender=registrar_admin, reciever=super_admin, request=subject)
         #process_tasks()
         
         
     context ={
         'requests':requests,
-        'messages':messages
+        'messages':messages,
+        'last_message': last_message,
+        'super_admin': super_admin,
     }
     return render(request, 'registrar_admin/request.html', context)
 

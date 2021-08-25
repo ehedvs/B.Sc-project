@@ -30,21 +30,36 @@
           <!-- Conversations are loaded here -->
           <div class="direct-chat-messages">
             <!-- Message. Default to the left -->
+            {% if last_message %}
             <div class="direct-chat-msg">
               <div class="direct-chat-infos clearfix">
                 <span class="direct-chat-name float-left">Super Admin</span>
-                <span class="direct-chat-timestamp float-right">15 min ago</span>
+                <span class="direct-chat-timestamp float-right">{{last_message.timestamp|timesince}} ago</span>
               </div>
               <!-- /.direct-chat-infos -->
-              <img class="direct-chat-img" src="{% static 'dist/img/1.jpg' %}" alt="Message User Image">
+              <img class="direct-chat-img" src="{{last_message.reciever.image.url}}" alt="wrong">
               <!-- /.direct-chat-img -->
               <div class="direct-chat-text">
-                student registration and grade report
+                {{last_message}}
               </div>
               <!-- /.direct-chat-text -->
             </div>
             <!-- /.direct-chat-msg -->
-
+            {% else %}
+            <div class="direct-chat-msg">
+              <div class="direct-chat-infos clearfix">
+                <span class="direct-chat-name float-left">Super Admin</span>
+                <span class="direct-chat-timestamp float-right">no recently</span>
+              </div>
+              <!-- /.direct-chat-infos -->
+              <img class="direct-chat-img" src="{{ super_admin.image.url }}" alt="wrong">
+              <!-- /.direct-chat-img -->
+              <div class="direct-chat-text">
+                No message is sent from super admin
+              </div>
+              <!-- /.direct-chat-text -->
+            </div>
+            {% endif %}
             <!-- Message to the right -->
             {% for message in messages %}
             <div class="direct-chat-msg right">
@@ -53,7 +68,7 @@
                 <span class="direct-chat-timestamp float-left">{{message.timestamp|timesince}} ago</span>
               </div>
               <!-- /.direct-chat-infos -->
-              <img class="direct-chat-img" src="{{message.sender.user.image.url}}" alt="Message User Image">
+              <img class="direct-chat-img" src="{{message.sender.image.url}}" alt="Message User Image">
               <!-- /.direct-chat-img -->
               <div class="direct-chat-text">
               {{message}}
@@ -63,30 +78,7 @@
             {% endfor %}
             <!-- /.direct-chat-msg -->
           </div>
-          <!--/.direct-chat-messages-->
-
-          <!-- Contacts are loaded here -->
-          <div class="direct-chat-contacts">
-            <ul class="contacts-list">
-              <li>
-                <a href="#">
-                  <img class="contacts-list-img" src="{% static 'dist/img/1.jpg' %}" alt="User Avatar">
-
-                  <div class="contacts-list-info">
-                    <span class="contacts-list-name">
-                      Count Dracula
-                      <small class="contacts-list-date float-right">2/28/2015</small>
-                    </span>
-                    <span class="contacts-list-msg">How have you been? I was...</span>
-                  </div>
-                  <!-- /.contacts-list-info -->
-                </a>
-              </li>
-              <!-- End Contact Item -->
-            </ul>
-            <!-- /.contatcts-list -->
-          </div>
-          <!-- /.direct-chat-pane -->
+        
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
