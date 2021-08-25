@@ -6,12 +6,12 @@
 {% block second %}profile{% endblock %}
 {% block content%}
 
-    <div class="content-section">
+    <div class="content-section ml-5">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
           <div class="card">
                 <h5 class="card-header">Update profile of the student</h5>
-            <div class="card-body">
+            <div class="card-body ml-5 border-left mt-3 mb-3">
                 {{ p_form|crispy }}
                 <button class="btn btn-info" type="submit">Update</button>
             </div>

@@ -3,20 +3,13 @@ from django.dispatch import receiver
 from .models import Profile, Student, AcademicHistory
 from registrar_admin.models import Faculty, Program
 
-# sending signal for creating profile
 
 
+# sending signal for creating profil
 @receiver(post_save, sender=Student)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(student=instance)
-
-# @receiver(post_save, sender=Student)
-# def save_profile(sender, instance, **kwargs):
-#     instance.profile.save()
-
-# @receiver(post_save, sender=AcademicHistory)
-# def create_certificate(sender)
 
 
 @receiver(post_save, sender=AcademicHistory)
@@ -32,20 +25,6 @@ def level_of_completion(sender, instance, created, **kwargs):
         Student.objects.filter(id=instance.student.id).update(
             level_of_completion=status*100)
 
-        # print(instance.academic_status)
-        # if instance.academic_status == "promoted":
-        #     if (instance.semester % 2)==0:
-        #         loc = (instance.semester*instance.batch)*(1/(year_required*2))
-        #         loc = loc*100
-        #     else:
-        #         loc = (2*instance.batch-instance.semester)*(1/(year_required*2))
-        #         loc = loc*100
-
-        #     Student.objects.filter(id=instance.student.id).update(level_of_completion=loc)
-
-        # else:
-        #     pass
-
     else:
         Student.objects.filter(id=instance.student.id).update(
             level_of_completion=0.0)
@@ -54,8 +33,9 @@ def level_of_completion(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Student)
 def update_loc(sender, instance, **kwargs):
     status = AcademicHistory.objects.filter(
-        student=instance.id, academic_status="promoted").count()
+        student=instance.id, academic_status="Promoted").count()
     # print(status)
+    # print("--------------")
     if instance.department:
         year_required = Program.objects.get(
             name=instance.department).year_required

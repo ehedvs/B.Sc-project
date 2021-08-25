@@ -4,8 +4,7 @@ app_name ='graduates'
 urlpatterns = [
 
     path('', views.index, name='home'),
-    path('website/', views.website_user, name='website'),
-    path('school/', views.student_update),
+    path('school/', views.student_update, name='school'),
     path('dept/<path:id>/', views.school_department, name='dept'),
     path('request_approved_checker', views.request_approved_checker, name='request_approved_checker'),
     path('upload/', views.upload, name='upload' ),
