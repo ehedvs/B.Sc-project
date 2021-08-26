@@ -4,9 +4,103 @@
 {% block first %}home {% endblock %}
 {% block second %}dashboard{% endblock %}
 {% block content%}
+
+
 <div class="row">
-    
+  <div class="col-md-4 col-sm-6 col-12">
+      <div class="info-box shadow pr-5">
+        <div style="position: relative; height:400px; width:1000px">
+           <canvas id="myChart2"></canvas>
+          </div>
+  <script>
+var ctx2 = document.getElementById('myChart2').getContext('2d');
+var myChart2 = new Chart(ctx2, {
+type: 'doughnut',
+data: {
+labels: ['Registared Institution', 'System Users', 'Generated certificate', 'page views'],
+datasets: [{
+    label: '# Dashboard',
+    data: [{{total_unv}}, {{users}}, {{certificate_generation}}, 5],
+    backgroundColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+    ],
+    borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+    ],
+    borderWidth: 1
+}]
+},
+options: {
+scales: {
+    y: {
+        beginAtZero: false
+    }
+}
+}
+});
+</script>
+    </div>
+  </div>
+
+  <div class="col-md-5 col-sm-6 col-12">
+    <div style="position: relative; height:300px; width:800px; padding-left: 20px; margin-left: 5px; margin-right: 50px">
+      <canvas id="myChart4"></canvas>
+      </div>
+
+      <script>
+        var ctx4 = document.getElementById('myChart4').getContext('2d');
+        var myChart4 = new Chart(ctx4, {
+        type: 'bar',
+        data: {
+        labels: ['Uploaded File', 'Deleted Acadamic Status', 'Student Registry', 'Deleted Certificate'],
+        datasets: [{
+            label: '# Activity logs',
+            data: [{{academic_upload}}, {{acadmic_status_deletion}}, {{student_registry}}, {{student_deletion}}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+              
+            ],
+            borderWidth: 1
+        }]
+        },
+        options: {
+        scales: {
+            y: {
+                beginAtZero: false
+            }
+        }
+        }
+        });
+        </script>
+  </div>
+
+
 </div>
+
+
+
+
 
 <div class="row">
     <div class="col-6">

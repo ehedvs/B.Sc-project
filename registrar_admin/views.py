@@ -18,13 +18,33 @@ from graduates.models import Student, AcademicHistory
 @login_required(login_url='accounts:login')
 @registrar_admin
 def dashboard(request):
+    logged_admin = request.user
+    logged_university = RegistrarAdmin.objects.get(user=logged_admin).university
+    certificate_generation = ActivityLog.objects.filter(operation="certificate_generation").count()
+    lists = University.objects.all().order_by('-id')
+    total_unv = lists.count()
+    registrar_admin = RegistrarAdmin.objects.all().count()
+    registrar_staff = RegistrarStaff.objects.all().count()
+    academic_upload = ActivityLog.objects.filter(operation="academic_upload" , institution=logged_university).count()
+    acadmic_status_deletion = ActivityLog.objects.filter(operation="acadmic_status_deletion" , institution=logged_university).count()
+    student_registry = ActivityLog.objects.filter(operation="student_registry", institution=logged_university).count()
+    certificate_generations = ActivityLog.objects.filter(operation="certificate_generations", institution=logged_university).count()
+    student_deletion = ActivityLog.objects.filter(operation="student_deletion", institution=logged_university).count()
+    users=registrar_admin+registrar_staff
     logged_user = request.user
     logged_admin_univ=RegistrarAdmin.objects.get(user=logged_user).university
     print(logged_admin_univ)
     faculties = Faculty.objects.filter( university=logged_admin_univ).order_by('-id')[0:5]
     programs = Program.objects.filter(faculty__university = logged_admin_univ).order_by('-id')[0:5]
         
-    return render(request, 'registrar_admin/dashboard.html',{'faculties':faculties, 'programs':programs})
+    return render(request, 'registrar_admin/dashboard.html',{'faculties':faculties, 
+    'programs':programs, 'total_unv':total_unv, 
+    'users':users, 'certificate_generation':certificate_generation,'academic_upload':academic_upload,
+       'acadmic_status_deletion':acadmic_status_deletion,
+       'student_registry':student_registry,
+       'certificate_generations': certificate_generations,
+       'student_deletion':student_deletion,})
+
 
 @login_required(login_url='accounts:login')
 @registrar_admin
@@ -54,7 +74,9 @@ def faculty(request):
 @login_required(login_url='accounts:login')
 @registrar_admin
 def program(request):
-   programs = Program.objects.all().order_by('-id')[0:5]
+   logged_user = request.user
+   logged_admin_univ=RegistrarAdmin.objects.get(user=logged_user).university
+   programs = Program.objects.filter(faculty__university=logged_admin_univ).order_by('-id')[0:5]
    logged_univ = RegistrarAdmin.objects.get(user=request.user).university
    program = ProgramForms(logged_univ)
    try:

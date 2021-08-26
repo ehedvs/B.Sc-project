@@ -28,13 +28,41 @@ import shlex
 @super_admin
 def dashboard(request):
     lists = University.objects.all().order_by('-id')
-    students=Student.objects.filter(level_of_completion=100.0).count()
     total_unv = lists.count()
     registrar_admin = RegistrarAdmin.objects.all().count()
     registrar_staff = RegistrarStaff.objects.all().count()
     users=registrar_admin+registrar_staff
-    context = {'lists':lists , 'total_unv':total_unv, 'users':users, 'students':students}
+    activities = ActivityLog.objects.all()
+    user_creation = ActivityLog.objects.filter(operation="create_staff").count()
+    
+    student_registry = ActivityLog.objects.filter(operation="student_registry").count()
+
+    certificate_generation = ActivityLog.objects.filter(operation="student_deletion").count()
+  
+    student_deletion = ActivityLog.objects.filter(operation="certificate_generation").count()
+ 
+    context = {
+         'activities':activities,
+        'lists':lists ,
+         'total_unv':total_unv,
+          'users':users,
+          'student_registry': student_registry, 
+          'certificate_generation': certificate_generation,
+          'student_deletion':student_deletion,
+          'user_creation':user_creation
+
+          
+          }
     return render(request, 'super_admin/dashboard.html', context)
+
+    # lists = University.objects.all().order_by('-id')
+    # students=Student.objects.filter(level_of_completion=100.0).count()
+    # total_unv = lists.count()
+    # registrar_admin = RegistrarAdmin.objects.all().count()
+    # registrar_staff = RegistrarStaff.objects.all().count()
+    # users=registrar_admin+registrar_staff
+    # context = {'lists':lists , 'total_unv':total_unv, 'users':users, 'students':students}
+    # return render(request, 'super_admin/dashboard.html', context)
 
 # register high educational institution
 @login_required(login_url='accounts:login')

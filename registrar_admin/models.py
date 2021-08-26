@@ -33,13 +33,13 @@ class Program(models.Model):
             'BSc','Bachelor of Science'
         ),
         (
-           'BEd','Bachelor of Science'
+           'BEd','Bachelor of Education'
         ),
         (
-            'MD','Master of Doctorate'
+            'MD','Doctor of Medicine'
         ),
         (
-            'BPH', 'Bachelor of Pharmacy'
+            'BPh', 'Bachelor of Philosophy'
         ),
 
     )
